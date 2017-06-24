@@ -8,6 +8,7 @@ namespace DesafioStone.Dominio.Teste.Services
 {
     public class ComputadorServiceTestes
     {
-
+        // Testar adição de novo computador
+        
     }
 }

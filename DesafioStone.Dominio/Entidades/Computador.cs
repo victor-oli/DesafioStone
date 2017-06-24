@@ -1,6 +1,7 @@
 ﻿using DesafioStone.Dominio.ObjectosValor;
 using MongoDB.Bson;
 using System.Collections.Generic;
+using System;
 
 namespace DesafioStone.Dominio.Entidades
 {
@@ -10,6 +11,7 @@ namespace DesafioStone.Dominio.Entidades
         public string Descricao { get; private set; }
         public string Andar { get; private set; }
         public List<Ocorrencia> Ocorrencias { get; private set; }
+        public bool Ativo { get; private set; }
 
         public Computador(string descricao, string andar)
         {
@@ -23,7 +25,7 @@ namespace DesafioStone.Dominio.Entidades
 
         public bool VerificarDisponibilidade()
         {
-            return this.Ocorrencias[this.Ocorrencias.Count - 1].Liberado;
+            return PegarUltimaOcorrencia().Liberado;
         }
 
         public void InformarUso()
@@ -32,6 +34,21 @@ namespace DesafioStone.Dominio.Entidades
                 throw new ComputadorEmUsoException("Não é possível utilizar um computador que já está em uso.");
 
             this.Ocorrencias.Add(new Ocorrencia("Computador em uso", false));
+        }
+
+        public void Desativar()
+        {
+            if (!VerificarDisponibilidade())
+                throw new ComputadorEmUsoException(string.Format("O computador {0} não pode ser desativador pois está em uso.", this.Descricao));
+
+            this.Ativo = false;
+
+            this.Ocorrencias.Add(new Ocorrencia("Computador desativado", false));
+        }
+
+        public Ocorrencia PegarUltimaOcorrencia()
+        {
+            return this.Ocorrencias[this.Ocorrencias.Count - 1];
         }
     }
 }
