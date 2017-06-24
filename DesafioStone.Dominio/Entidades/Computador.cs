@@ -7,7 +7,7 @@ namespace DesafioStone.Dominio.Entidades
 {
     public class Computador
     {
-        public ObjectId Id { get; private set; } 
+        public ObjectId Id { get; private set; }
         public string Descricao { get; private set; }
         public string Andar { get; private set; }
         public List<Ocorrencia> Ocorrencias { get; private set; }
