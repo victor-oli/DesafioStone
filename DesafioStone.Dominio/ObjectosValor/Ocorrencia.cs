@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DesafioStone.Dominio.Entidades
+namespace DesafioStone.Dominio.ObjectosValor
 {
     public class Ocorrencia
     {

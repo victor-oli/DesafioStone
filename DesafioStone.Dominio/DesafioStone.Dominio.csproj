@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Entidades\Computador.cs" />
-    <Compile Include="Entidades\Ocorrencia.cs" />
+    <Compile Include="ObjectosValor\Ocorrencia.cs" />
     <Compile Include="ObjectosValor\ComputadorEmUsoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

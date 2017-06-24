@@ -1,4 +1,4 @@
-﻿using DesafioStone.Dominio.Entidades;
+﻿using DesafioStone.Dominio.ObjectosValor;
 using System;
 using Xunit;
 

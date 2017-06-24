@@ -1,7 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using DesafioStone.Dominio.ObjectosValor;
+using MongoDB.Bson;
 using System.Collections.Generic;
-using System;
-using DesafioStone.Dominio.ObjectosValor;
 
 namespace DesafioStone.Dominio.Entidades
 {
