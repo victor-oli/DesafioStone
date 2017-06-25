@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Infra.BancoDados;
@@ -30,6 +31,11 @@ namespace DesafioStone.Infra.Repositorios
         public Computador Buscar(ObjectId id)
         {
             return _computadores.Find(x => x.Id == id).FirstOrDefault();
+        }
+
+        public IEnumerable<Computador> BuscarTudo()
+        {
+            return _computadores.Find(new BsonDocument()).ToEnumerable();
         }
 
         public void Desativar(Computador computador)

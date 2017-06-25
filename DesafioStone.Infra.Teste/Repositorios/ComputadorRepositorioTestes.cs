@@ -2,6 +2,7 @@
 using DesafioStone.Infra.Repositorios;
 using MongoDB.Bson;
 using Xunit;
+using System.Linq;
 
 namespace DesafioStone.Infra.Teste.Repositorios
 {
@@ -74,6 +75,22 @@ namespace DesafioStone.Infra.Teste.Repositorios
         }
 
         // Testar consulta de todos os computadores
+        [Fact]
+        public void ComputadorRepositorio_RealizarConsultaDeTudo_ValidarResultado()
+        {
+            // Arrange
+            var computador = new Computador("C012", "A02");
+            new ComputadorRepositorio().Adicionar(computador);
 
+            computador = new Computador("C013", "A04");
+            new ComputadorRepositorio().Adicionar(computador);
+
+            // Act
+            var listaComputadores = new ComputadorRepositorio().BuscarTudo();
+
+            // Assert
+            Assert.True(listaComputadores != null);
+            Assert.True(listaComputadores.ToList().Count > 0);
+        }
     }
 }

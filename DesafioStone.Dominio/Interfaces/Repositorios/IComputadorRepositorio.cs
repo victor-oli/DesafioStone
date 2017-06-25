@@ -1,6 +1,7 @@
 ﻿using DesafioStone.Dominio.Entidades;
 using MongoDB.Bson;
 using System;
+using System.Collections.Generic;
 
 namespace DesafioStone.Dominio.Interfaces.Repositorios
 {
@@ -10,5 +11,6 @@ namespace DesafioStone.Dominio.Interfaces.Repositorios
         void Desativar(Computador computador);
         Computador Buscar(ObjectId id);
         void Atualizar(Computador computador);
+        IEnumerable<Computador> BuscarTudo();
     }
 }
