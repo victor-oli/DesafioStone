@@ -19,6 +19,7 @@ namespace DesafioStone.Dominio.Entidades
             this.Descricao = descricao;
             this.Andar = andar;
             this.Ocorrencias = new List<Ocorrencia>();
+            this.Ativo = true;
 
             this.Ocorrencias.Add(new Ocorrencia("Cadastro de computador", true));
         }

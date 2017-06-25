@@ -1,6 +1,7 @@
 ﻿using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Dominio.Interfaces.Servicos;
+using MongoDB.Bson;
 
 namespace DesafioStone.Dominio.Servicos
 {
@@ -13,14 +14,14 @@ namespace DesafioStone.Dominio.Servicos
             _repositorio = repositorio;
         }
 
-        public string Adicionar(Computador computador)
+        public ObjectId Adicionar(Computador computador)
         {
             return _repositorio.Adicionar(computador);
         }
 
-        public bool Desativar(Computador computador)
+        public void Desativar(Computador computador)
         {
-            return _repositorio.Desativar(computador);
+            _repositorio.Desativar(computador);
         }
 
         public void Dispose()

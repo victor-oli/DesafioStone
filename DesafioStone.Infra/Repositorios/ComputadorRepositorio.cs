@@ -1,40 +1,36 @@
 ﻿using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
+using DesafioStone.Infra.BancoDados;
+using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Configuration;
-using System.Linq;
 
 namespace DesafioStone.Infra.Repositorios
 {
     public class ComputadorRepositorio : IComputadorRepositorio
     {
-        private IMongoClient _client;
-        private IMongoDatabase _db;
-        private IMongoCollection<Computador> _computadores;
+        private IMongoCollection<Computador> _computadores = new MongoDbContext<Computador>().Open("Computador");
 
-        public ComputadorRepositorio()
-        {
-            _client = new MongoClient(ConfigurationManager.AppSettings["MongoDBConn"].ToString());
-            _db = _client.GetDatabase(ConfigurationManager.AppSettings["MongoDBName"].ToString());
-            _computadores = _db.GetCollection<Computador>("Computador");
-        }
-
-        public string Adicionar(Computador computador)
+        public ObjectId Adicionar(Computador computador)
         {
             _computadores.InsertOne(computador);
 
-            return computador.Id.ToString();
+            return computador.Id;
         }
 
-        public bool Desativar(Computador computador)
+        public Computador Buscar(ObjectId id)
         {
-            return false;
+            return _computadores.Find(x => x.Id == id).FirstOrDefault();
+        }
+
+        public void Desativar(Computador computador)
+        {
+            UpdateDefinition<Computador> update = Builders<Computador>.Update.Set("Ativo", false);
+
+            _computadores.UpdateOne(x => x.Id == computador.Id, update);
         }
 
         public void Dispose()
         {
-            _client = null;
-            _db = null;
             _computadores = null;
         }
     }

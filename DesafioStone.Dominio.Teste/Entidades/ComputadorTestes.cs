@@ -15,6 +15,7 @@ namespace DesafioStone.Dominio.Teste.Entidades
             Assert.True(!string.IsNullOrEmpty(computador.Descricao));
             Assert.True(!string.IsNullOrEmpty(computador.Andar));
             Assert.True(computador.Ocorrencias != null);
+            Assert.True(computador.Ativo);
         }
 
         // Testar adição da primeira ocorrência
@@ -70,7 +71,7 @@ namespace DesafioStone.Dominio.Teste.Entidades
 
             var ex = Assert.Throws<ComputadorEmUsoException>(() => computador.Desativar());
             Assert.Equal(string.Format("O computador {0} não pode ser desativador pois está em uso.", computador.Descricao), ex.Message);
-            Assert.True(!computador.Ativo);
+            Assert.True(computador.Ativo);
             Assert.NotEqual("Computador desativado", computador.PegarUltimaOcorrencia().Descricao);
         }
     }
