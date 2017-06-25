@@ -61,9 +61,7 @@ namespace DesafioStone.Dominio.Servicos
 
         public void Desativar(Computador computador)
         {
-            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorDesativado());
-            computador.Ativo = false;
-
+            computador.Desativar();
             _repositorio.Desativar(computador);
         }
 

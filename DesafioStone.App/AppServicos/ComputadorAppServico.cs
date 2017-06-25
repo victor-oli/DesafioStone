@@ -1,7 +1,6 @@
 ﻿using DesafioStone.App.Interfaces;
 using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
-using System;
 
 namespace DesafioStone.App.AppServicos
 {
@@ -19,9 +18,14 @@ namespace DesafioStone.App.AppServicos
             return _servico.Adicionar(computador);
         }
 
+        public void Desativar(Computador computador)
+        {
+            _servico.Desativar(computador);
+        }
+
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _servico.Dispose();
         }
     }
 }

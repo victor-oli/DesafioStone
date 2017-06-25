@@ -2,13 +2,7 @@
 using DesafioStone.App.ViewModels;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Dominio.Interfaces.Servicos;
-using MongoDB.Bson;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DesafioStone.App.Testes.Servicos
@@ -35,7 +29,6 @@ namespace DesafioStone.App.Testes.Servicos
 
         }
 
-        // validar desativar um computador
         // validar buscar um computador pelo id
         // validar buscar um computador por descrição
         // validar buscar todos os computadores

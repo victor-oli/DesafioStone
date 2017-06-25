@@ -6,5 +6,6 @@ namespace DesafioStone.App.Interfaces
     public interface IComputadorAppServico : IDisposable
     {
         string Adicionar(Computador computador);
+        void Desativar(Computador computador);
     }
 }

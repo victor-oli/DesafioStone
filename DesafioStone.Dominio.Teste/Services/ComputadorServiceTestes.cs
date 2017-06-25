@@ -212,5 +212,22 @@ namespace DesafioStone.Dominio.Teste.Services
             Assert.Equal(false, computador.PegarUltimaOcorrencia().Liberado);
             Assert.True(!computador.Ativo);
         }
+
+        // Disparar excessão ao tentar desativar um computador não-liberado
+        [Fact]
+        public void ComputadorService_DesativarComputadorNaoLiberado_RetornarException()
+        {
+            // Arrange
+            var computador = new Computador("C001", "A01");
+            var repositorio = new Mock<IComputadorRepositorio>();
+            repositorio.Setup(x => x.Desativar(computador))
+                .Throws(new ComputadorEmUsoException("Não é possível desativar um computador em uso!"));
+            var servico = new ComputadorServico(repositorio.Object);
+
+            // Act & Assert
+            var ex = Assert.Throws<ComputadorEmUsoException>(() => servico.Desativar(computador));
+            Assert.NotNull(ex);
+            Assert.Equal("Não é possível desativar um computador em uso!", ex.Message);
+        }
     }
 }
