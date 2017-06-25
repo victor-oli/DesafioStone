@@ -3,6 +3,7 @@ using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Dominio.Interfaces.Servicos;
 using MongoDB.Bson;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DesafioStone.Dominio.Servicos
 {
@@ -30,24 +31,24 @@ namespace DesafioStone.Dominio.Servicos
             return _repositorio.Buscar(id);
         }
 
-        public IEnumerable<Computador> BuscarTodosLiberados()
+        public IList<Computador> BuscarTodosLiberados()
         {
-            return _repositorio.BuscarTodosLiberados();
+            return _repositorio.BuscarTodosLiberados().ToList();
         }
 
-        public IEnumerable<Computador> BuscarTodosNaoLiberados()
+        public IList<Computador> BuscarTodosNaoLiberados()
         {
-            return _repositorio.BuscarTodosNaoLiberados();
+            return _repositorio.BuscarTodosNaoLiberados().ToList();
         }
 
-        public IEnumerable<Computador> BuscarTodosPorAndar(string andar)
+        public IList<Computador> BuscarTodosPorAndar(string andar)
         {
-            return _repositorio.BuscarTodosPorAndar(andar);
+            return _repositorio.BuscarTodosPorAndar(andar).ToList();
         }
 
-        public IEnumerable<Computador> BuscarTudo()
+        public IList<Computador> BuscarTudo()
         {
-            return _repositorio.BuscarTudo();
+            return _repositorio.BuscarTudo().ToList();
         }
 
         public void Desativar(Computador computador)

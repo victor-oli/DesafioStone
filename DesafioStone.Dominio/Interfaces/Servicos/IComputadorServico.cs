@@ -11,9 +11,9 @@ namespace DesafioStone.Dominio.Interfaces.Servicos
         void Desativar(Computador computador);
         Computador Buscar(ObjectId id);
         void Atualizar(Computador computador);
-        IEnumerable<Computador> BuscarTudo();
-        IEnumerable<Computador> BuscarTodosLiberados();
-        IEnumerable<Computador> BuscarTodosNaoLiberados();
-        IEnumerable<Computador> BuscarTodosPorAndar(string andar);
+        IList<Computador> BuscarTudo();
+        IList<Computador> BuscarTodosLiberados();
+        IList<Computador> BuscarTodosNaoLiberados();
+        IList<Computador> BuscarTodosPorAndar(string andar);
     }
 }
