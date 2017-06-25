@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using DesafioStone.Dominio.Entidades;
+﻿using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Infra.BancoDados;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using DesafioStone.Dominio.ObjectosValor;
+using System.Collections.Generic;
 
 namespace DesafioStone.Infra.Repositorios
 {
