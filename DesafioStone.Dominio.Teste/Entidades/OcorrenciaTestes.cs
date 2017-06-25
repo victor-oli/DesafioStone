@@ -10,7 +10,7 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Ocorrencia_Cadastrar_Consistencia()
         {
-            var ocorrencia = new Ocorrencia("teste", false);
+            var ocorrencia = Ocorrencia.OcorrenciaFabrica.ComputadorEmUso();
 
             Assert.True(ocorrencia.DataOcorrencia != null);
             Assert.True(!string.IsNullOrEmpty(ocorrencia.Descricao.Trim()));

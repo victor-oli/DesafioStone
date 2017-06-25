@@ -1,6 +1,7 @@
 ﻿using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Dominio.Interfaces.Servicos;
+using DesafioStone.Dominio.ObjectosValor;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,9 @@ namespace DesafioStone.Dominio.Servicos
 
         public void Desativar(Computador computador)
         {
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorDesativado());
+            computador.Ativo = false;
+
             _repositorio.Desativar(computador);
         }
 

@@ -103,10 +103,10 @@ namespace DesafioStone.Dominio.Teste.Services
             listaLiberados.Add(c3);
 
             var c4 = new Computador("C004", "A01");
-            c4.Ocorrencias.Add(new Ocorrencia("Em Uso", false));
+            c4.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
             listaNaoLiberados.Add(c4);
             var c5 = new Computador("C005", "A01");
-            c5.Ocorrencias.Add(new Ocorrencia("Em Uso", false));
+            c5.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
             listaNaoLiberados.Add(c5);
 
             var repositorio = new Mock<IComputadorRepositorio>();
@@ -156,6 +156,25 @@ namespace DesafioStone.Dominio.Teste.Services
 
             Assert.True(listaA02 != null);
             Assert.Equal(0, listaA02.ToList().Count);
+        }
+
+        // Testar ocorrencia gerada ao desativar um computador
+        [Fact]
+        public void ComputadorService_DesativarComputador_VerificarOcorrencia()
+        {
+            // Arrange
+            var computador = new Computador("C001", "A01");
+            var repositorio = new Mock<IComputadorRepositorio>();
+            repositorio.Setup(x => x.Desativar(computador));
+            var servico = new ComputadorServico(repositorio.Object);
+
+            // Act
+            servico.Desativar(computador);
+
+            // Assert
+            Assert.Equal("Computador Desativado".ToUpper(), computador.PegarUltimaOcorrencia().Descricao);
+            Assert.Equal(false, computador.PegarUltimaOcorrencia().Liberado);
+            Assert.True(!computador.Ativo);
         }
     }
 }

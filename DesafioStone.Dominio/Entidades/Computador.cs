@@ -21,7 +21,7 @@ namespace DesafioStone.Dominio.Entidades
             this.Ocorrencias = new List<Ocorrencia>();
             this.Ativo = true;
 
-            this.Ocorrencias.Add(new Ocorrencia("Cadastro de computador", true));
+            this.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
         }
 
         public bool VerificarDisponibilidade()
@@ -34,7 +34,7 @@ namespace DesafioStone.Dominio.Entidades
             if (!VerificarDisponibilidade())
                 throw new ComputadorEmUsoException("Não é possível utilizar um computador que já está em uso.");
 
-            this.Ocorrencias.Add(new Ocorrencia("Computador em uso", false));
+            this.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
         }
 
         public void Desativar()
@@ -44,7 +44,7 @@ namespace DesafioStone.Dominio.Entidades
 
             this.Ativo = false;
 
-            this.Ocorrencias.Add(new Ocorrencia("Computador desativado", false));
+            this.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorDesativado());
         }
 
         public Ocorrencia PegarUltimaOcorrencia()

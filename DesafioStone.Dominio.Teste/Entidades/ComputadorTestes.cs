@@ -10,8 +10,10 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Computador_ValidarCadastro_SerConsistente()
         {
+            // Arrange & Act
             var computador = new Computador("C001", "A01");
             
+            // Assert
             Assert.True(!string.IsNullOrEmpty(computador.Descricao));
             Assert.True(!string.IsNullOrEmpty(computador.Andar));
             Assert.True(computador.Ocorrencias != null);
@@ -22,9 +24,11 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Computador_AdicionarPrimeiraOcorrencia_Valido()
         {
+            // Arrange & Act
             var computador = new Computador("C001", "A01");
 
-            Assert.Equal("Cadastro de computador", computador.Ocorrencias[0].Descricao);
+            // Assert
+            Assert.Equal("Cadastro de computador".ToUpper(), computador.Ocorrencias[0].Descricao);
             Assert.True(computador.Ocorrencias[0].Liberado);
         }
 
@@ -32,10 +36,13 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Computador_ValidarDisponibilidade_Valido()
         {
+            // Arrange
             var computador = new Computador("C001", "A01");
 
+            // Act
             bool disponivel = computador.VerificarDisponibilidade();
 
+            // Assert
             Assert.True(disponivel);
         }
 
@@ -43,9 +50,11 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Computador_InformarUsoNaoPermitido_RetornarException()
         {
+            // Arrange
             var computador = new Computador("C001", "A01");
-            computador.Ocorrencias.Add(new Ocorrencia("Em Uso", false));
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
 
+            // Act & Assert
             var ex = Assert.Throws<ComputadorEmUsoException>(() => computador.InformarUso());
             Assert.Equal("Não é possível utilizar um computador que já está em uso.", ex.Message);
             Assert.False(computador.VerificarDisponibilidade());
@@ -55,10 +64,13 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Computador_PegarUltimaOcorrencia_RetornarOcorrencia()
         {
+            // Arrange
             var computador = new Computador("C001", "A01");
 
+            // Act
             var ocorrencia = computador.PegarUltimaOcorrencia();
 
+            // Assert
             Assert.True(ocorrencia != null);
         }
 
@@ -66,9 +78,11 @@ namespace DesafioStone.Dominio.Teste.Entidades
         [Fact]
         public void Computador_DesativarComputadorNaoPermitido_RetornarException()
         {
+            // Arrange
             var computador = new Computador("C001", "A01");
-            computador.Ocorrencias.Add(new Ocorrencia("Em Uso", false));
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
 
+            // Act & Assert
             var ex = Assert.Throws<ComputadorEmUsoException>(() => computador.Desativar());
             Assert.Equal(string.Format("O computador {0} não pode ser desativador pois está em uso.", computador.Descricao), ex.Message);
             Assert.True(computador.Ativo);
