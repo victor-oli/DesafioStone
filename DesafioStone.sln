@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioStone.Infra", "Desaf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioStone.Infra.Teste", "DesafioStone.Infra.Teste\DesafioStone.Infra.Teste.csproj", "{E29B6805-E9DC-45B4-A4A0-3E45468274F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioStone.App.Testes", "DesafioStone.App.Testes\DesafioStone.App.Testes.csproj", "{C4D42B0A-E2B8-4588-9629-643C4E69E48D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{E29B6805-E9DC-45B4-A4A0-3E45468274F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E29B6805-E9DC-45B4-A4A0-3E45468274F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E29B6805-E9DC-45B4-A4A0-3E45468274F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D42B0A-E2B8-4588-9629-643C4E69E48D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D42B0A-E2B8-4588-9629-643C4E69E48D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D42B0A-E2B8-4588-9629-643C4E69E48D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D42B0A-E2B8-4588-9629-643C4E69E48D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +58,6 @@ Global
 		{FEB42FD2-6BE2-45DD-BF14-5BE8BD48F341} = {AD2C99F8-E64F-47F4-911D-7D3EF6476DA2}
 		{16DEF9DB-E560-425C-88B4-EA7110384947} = {9DBA3016-63C0-4A7C-B8FC-F0BD80116290}
 		{E29B6805-E9DC-45B4-A4A0-3E45468274F1} = {AD2C99F8-E64F-47F4-911D-7D3EF6476DA2}
+		{C4D42B0A-E2B8-4588-9629-643C4E69E48D} = {AD2C99F8-E64F-47F4-911D-7D3EF6476DA2}
 	EndGlobalSection
 EndGlobal
