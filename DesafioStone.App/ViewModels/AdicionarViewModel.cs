@@ -1,4 +1,6 @@
-﻿namespace DesafioStone.App.ViewModels
+﻿using DesafioStone.Dominio.Entidades;
+
+namespace DesafioStone.App.ViewModels
 {
     public class AdicionarViewModel
     {
@@ -7,8 +9,8 @@
 
         public AdicionarViewModel(string descricao, string andar)
         {
-            this.Descricao = descricao.Trim().ToUpper();
-            this.Andar = andar.Trim().ToUpper();
+            Descricao = descricao.Trim().ToUpper();
+            Andar = andar.Trim().ToUpper();
         }
 
         public bool EhValido()
@@ -20,6 +22,11 @@
                 return false;
 
             return true;
+        }
+
+        public Computador GerarComputador()
+        {
+            return new Computador(Descricao, Andar);
         }
     }
 }

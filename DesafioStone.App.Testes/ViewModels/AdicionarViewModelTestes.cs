@@ -25,5 +25,22 @@ namespace DesafioStone.App.Testes.ViewModels
             Assert.True(!string.IsNullOrEmpty(vm.Descricao.Trim()));
             Assert.True(!string.IsNullOrEmpty(vm.Andar.Trim()));
         }
+
+        // Validar metodo que devolve um computador pela viewmodel
+        [Fact]
+        public void AdicionarViewModel_DevolverComputador_ValidadarRetorno()
+        {
+            // Arrange
+            var vm = new AdicionarViewModel("C001", "A10");
+
+            // Act
+            var computador = vm.GerarComputador();
+
+            // Assert
+            Assert.NotNull(computador);
+            Assert.Equal("C001", computador.Descricao);
+            Assert.Equal("A10", computador.Andar);
+            Assert.Equal(true, computador.Ativo);
+        }
     }
 }

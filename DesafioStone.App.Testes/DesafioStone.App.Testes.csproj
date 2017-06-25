@@ -79,14 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicos\ComputadorAppServiceTestes.cs" />
     <Compile Include="ViewModels\AdicionarViewModelTestes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Servicos\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DesafioStone.App\DesafioStone.App.csproj">
       <Project>{19583e2f-b682-49b9-9c6d-e33ba97cdbfc}</Project>
