@@ -59,6 +59,21 @@ namespace DesafioStone.Infra.Teste.Repositorios
         }
 
         // Testar consulta de um unico computador
+        [Fact]
+        public void ComputadorRepositorio_RealizarConsulta_ValidarRetorno()
+        {
+            // Arrange
+            var computador = new Computador("C012", "A02");
+            ObjectId id = new ComputadorRepositorio().Adicionar(computador);
+
+            // Act
+            var resultado = new ComputadorRepositorio().Buscar(id);
+
+            // Assert
+            Assert.Equal(id, resultado.Id);
+        }
+
         // Testar consulta de todos os computadores
+
     }
 }
