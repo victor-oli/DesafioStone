@@ -3,6 +3,7 @@ using DesafioStone.Infra.Repositorios;
 using MongoDB.Bson;
 using Xunit;
 using System.Linq;
+using DesafioStone.Dominio.ObjectosValor;
 
 namespace DesafioStone.Infra.Teste.Repositorios
 {
@@ -91,6 +92,63 @@ namespace DesafioStone.Infra.Teste.Repositorios
             // Assert
             Assert.True(listaComputadores != null);
             Assert.True(listaComputadores.ToList().Count > 0);
+        }
+
+        // Testar consulta de todos os computadores em um status específico (liberado/não-liberado)
+        [Fact]
+        public void ComputadorRepositorio_ConsultarPorStatus_ValidarResultado()
+        {
+            // Arrange
+            var computador1 = new Computador("C001", "A01");
+            new ComputadorRepositorio().Adicionar(computador1);
+
+            var computador2 = new Computador("C002", "A01");
+            new ComputadorRepositorio().Adicionar(computador2);
+
+            var computador3 = new Computador("C003", "A01");
+            computador3.Ocorrencias.Add(new Ocorrencia("em uso", false));
+            new ComputadorRepositorio().Adicionar(computador3);
+
+            var computador4 = new Computador("C004", "A02");
+            computador4.Ocorrencias.Add(new Ocorrencia("em uso", false));
+            new ComputadorRepositorio().Adicionar(computador4);
+
+            var computador5 = new Computador("C005", "A02");
+            computador5.Ocorrencias.Add(new Ocorrencia("em uso", false));
+            new ComputadorRepositorio().Adicionar(computador5);
+
+            // Act
+            var listaComputadoresLiberados = new ComputadorRepositorio().BuscarTodosLiberados();
+            var listaComputadoresNaoLiberados = new ComputadorRepositorio().BuscarTodosNaoLiberados();
+
+            // Assert
+            Assert.True(listaComputadoresLiberados != null);
+            Assert.Equal(2, listaComputadoresLiberados.ToList().Count);
+
+            Assert.True(listaComputadoresNaoLiberados != null);
+            Assert.Equal(3, listaComputadoresNaoLiberados.ToList().Count);
+        }
+
+        // Testar consulta de todos os computadores em um andar específico
+        [Fact]
+        public void ComputadorRepositorio_ConsultarComputadoresEmUmAndar_ValidarResultado()
+        {
+            // Arrange
+            var computador1 = new Computador("C001", "A01");
+            new ComputadorRepositorio().Adicionar(computador1);
+
+            var computador2 = new Computador("C002", "A01");
+            new ComputadorRepositorio().Adicionar(computador2);
+
+            var computador3 = new Computador("C003", "A01");
+            computador3.Ocorrencias.Add(new Ocorrencia("em uso", false));
+            new ComputadorRepositorio().Adicionar(computador3);
+
+            // Act
+            var listaComputadores = new ComputadorRepositorio().BuscarTodosPorAndar("A01");
+
+            // Assert
+            Assert.Equal(3, listaComputadores.ToList().Count);
         }
     }
 }

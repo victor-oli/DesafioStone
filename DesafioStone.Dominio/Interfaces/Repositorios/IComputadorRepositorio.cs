@@ -12,5 +12,8 @@ namespace DesafioStone.Dominio.Interfaces.Repositorios
         Computador Buscar(ObjectId id);
         void Atualizar(Computador computador);
         IEnumerable<Computador> BuscarTudo();
+        IEnumerable<Computador> BuscarTodosLiberados();
+        IEnumerable<Computador> BuscarTodosNaoLiberados();
+        IEnumerable<Computador> BuscarTodosPorAndar(string andar);
     }
 }

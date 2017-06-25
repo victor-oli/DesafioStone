@@ -16,8 +16,8 @@ namespace DesafioStone.Dominio.Entidades
         public Computador(string descricao, string andar)
         {
             Id = new ObjectId();
-            this.Descricao = descricao;
-            this.Andar = andar;
+            this.Descricao = descricao.Trim().ToUpper();
+            this.Andar = andar.Trim().ToUpper();
             this.Ocorrencias = new List<Ocorrencia>();
             this.Ativo = true;
 

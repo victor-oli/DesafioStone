@@ -12,7 +12,7 @@ namespace DesafioStone.Dominio.ObjectosValor
 
         public Ocorrencia(string descricao, bool liberado)
         {
-            this.Descricao = descricao;
+            this.Descricao = descricao.Trim().ToUpper();
             this.DataOcorrencia = DateTime.Now;
             this.Liberado = liberado;
         }
