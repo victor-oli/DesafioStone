@@ -38,6 +38,26 @@ namespace DesafioStone.Infra.Teste.Repositorios
         }
 
         // Testar update de um computador
+        [Fact]
+        public void ComputadorRepositorio_AtualizarRegistro_ValidarAtualizacao()
+        {
+            // Arrange
+            var computador = new Computador("C012", "A02");
+            ObjectId id = new ComputadorRepositorio().Adicionar(computador);
+            computador.Descricao = "C013";
+            computador.Andar = "A03";
+            computador.Ativo = false;
+
+            // Act
+            new ComputadorRepositorio().Atualizar(computador);
+
+            // Assert
+            var computadorAtualizado = new ComputadorRepositorio().Buscar(computador.Id);
+            Assert.Equal("C013", computadorAtualizado.Descricao);
+            Assert.Equal("A03", computadorAtualizado.Andar);
+            Assert.Equal(false, computadorAtualizado.Ativo);
+        }
+
         // Testar consulta de um unico computador
         // Testar consulta de todos os computadores
     }

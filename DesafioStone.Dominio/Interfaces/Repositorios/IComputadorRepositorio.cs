@@ -9,5 +9,6 @@ namespace DesafioStone.Dominio.Interfaces.Repositorios
         ObjectId Adicionar(Computador computador);
         void Desativar(Computador computador);
         Computador Buscar(ObjectId id);
+        void Atualizar(Computador computador);
     }
 }

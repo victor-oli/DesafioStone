@@ -8,10 +8,10 @@ namespace DesafioStone.Dominio.Entidades
     public class Computador
     {
         public ObjectId Id { get; private set; }
-        public string Descricao { get; private set; }
-        public string Andar { get; private set; }
+        public string Descricao { get; set; }
+        public string Andar { get; set; }
         public List<Ocorrencia> Ocorrencias { get; private set; }
-        public bool Ativo { get; private set; }
+        public bool Ativo { get; set; }
 
         public Computador(string descricao, string andar)
         {

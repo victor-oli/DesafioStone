@@ -1,4 +1,5 @@
-﻿using DesafioStone.Dominio.Entidades;
+﻿using System;
+using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Infra.BancoDados;
 using MongoDB.Bson;
@@ -15,6 +16,15 @@ namespace DesafioStone.Infra.Repositorios
             _computadores.InsertOne(computador);
 
             return computador.Id;
+        }
+
+        public void Atualizar(Computador computador)
+        {
+            _computadores.UpdateOne(x => x.Id == computador.Id,
+                Builders<Computador>.Update
+                .Set(x => x.Descricao, computador.Descricao)
+                .Set(x => x.Andar, computador.Andar)
+                .Set(x => x.Ativo, computador.Ativo));
         }
 
         public Computador Buscar(ObjectId id)
