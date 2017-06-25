@@ -24,6 +24,21 @@ namespace DesafioStone.Infra.Teste.Repositorios
             Assert.Equal(true, new ComputadorRepositorio().Buscar(id).Ativo);
         }
 
+        // Testar Consultar por descrição do computador
+        [Fact]
+        public void ComputadorRepositorio_ConsultarPorDescricao_RetornarComputador()
+        {
+            // Arrange
+            var descricao = "C001";
+
+            // Act
+            var computador = new ComputadorRepositorio().BuscarPorDescricao(descricao);
+
+            // Assert
+            Assert.NotNull(computador);
+            Assert.Equal(descricao, computador.Descricao);
+        }
+
         // Testar desativação de um computador
         [Fact]
         public void ComputadorRepositorio_DesativarRegistro_AtivoDeveEstarFalso()

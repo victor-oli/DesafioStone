@@ -29,6 +29,7 @@ namespace DesafioStone.Dominio.Teste.Services
             // Assert
             Assert.True(computadorAdicionadoId != null);
             Assert.True(servico.Buscar(computadorAdicionadoId) != null);
+            Assert.Null(null);
         }
 
         // Testar update de um computador

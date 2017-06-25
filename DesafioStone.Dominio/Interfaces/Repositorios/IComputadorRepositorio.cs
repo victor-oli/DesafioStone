@@ -15,5 +15,6 @@ namespace DesafioStone.Dominio.Interfaces.Repositorios
         IEnumerable<Computador> BuscarTodosLiberados();
         IEnumerable<Computador> BuscarTodosNaoLiberados();
         IEnumerable<Computador> BuscarTodosPorAndar(string andar);
+        Computador BuscarPorDescricao(string descricao);
     }
 }

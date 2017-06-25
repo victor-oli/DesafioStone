@@ -4,6 +4,7 @@ using DesafioStone.Infra.BancoDados;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System;
 
 namespace DesafioStone.Infra.Repositorios
 {
@@ -30,6 +31,11 @@ namespace DesafioStone.Infra.Repositorios
         public Computador Buscar(ObjectId id)
         {
             return _computadores.Find(x => x.Id == id).FirstOrDefault();
+        }
+
+        public Computador BuscarPorDescricao(string descricao)
+        {
+            return _computadores.Find(x => x.Descricao == descricao).FirstOrDefault();
         }
 
         public IEnumerable<Computador> BuscarTodosLiberados()
