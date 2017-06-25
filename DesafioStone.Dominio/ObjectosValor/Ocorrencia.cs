@@ -1,12 +1,10 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 
 namespace DesafioStone.Dominio.ObjectosValor
 {
     public class Ocorrencia
     {
         public string Descricao { get; private set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime DataOcorrencia { get; private set; }
         public bool Liberado { get; private set; }
 

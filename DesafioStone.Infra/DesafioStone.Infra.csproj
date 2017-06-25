@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BancoDados\MongoDbContext.cs" />
+    <Compile Include="DataBaseModel\ComputadorDBM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorios\ComputadorRepositorio.cs" />
   </ItemGroup>

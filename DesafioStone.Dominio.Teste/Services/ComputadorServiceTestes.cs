@@ -19,17 +19,17 @@ namespace DesafioStone.Dominio.Teste.Services
             // Arrange
             var computador = new Computador("C001", "A01");
             var repositorio = new Mock<IComputadorRepositorio>();
-            repositorio.Setup(x => x.Adicionar(computador)).Returns(computador.Id);
+            repositorio.Setup(x => x.Adicionar(computador)).Returns("123");
+            computador.Id = "123";
             repositorio.Setup(x => x.Buscar(computador.Id)).Returns(computador);
             var servico = new ComputadorServico(repositorio.Object);
 
             // Act
-            ObjectId computadorAdicionadoId = servico.Adicionar(computador);
+            computador.Id = servico.Adicionar(computador);
 
             // Assert
-            Assert.True(computadorAdicionadoId != null);
-            Assert.True(servico.Buscar(computadorAdicionadoId) != null);
-            Assert.Null(null);
+            Assert.True(computador.Id != null);
+            Assert.True(servico.Buscar(computador.Id) != null);
         }
 
         // Validar adição de um computador com a mesma descrição
@@ -85,16 +85,18 @@ namespace DesafioStone.Dominio.Teste.Services
         {
             // Arrange
             ObjectId id = new ObjectId();
+            var computador = new Computador("C100", "A10");
+            computador.Id = id.ToString();
             var repositorio = new Mock<IComputadorRepositorio>();
-            repositorio.Setup(x => x.Buscar(id)).Returns(new Computador("C100", "A10"));
+            repositorio.Setup(x => x.Buscar(id.ToString())).Returns(computador);
             var servico = new ComputadorServico(repositorio.Object);
 
             // Act
-            var resultado = servico.Buscar(id);
+            var resultado = servico.Buscar(id.ToString());
 
             // Assert
             Assert.True(resultado != null);
-            Assert.Equal(id, resultado.Id);
+            Assert.Equal(id.ToString(), resultado.Id);
             Assert.Equal("C100", resultado.Descricao);
             Assert.Equal("A10", resultado.Andar);
         }

@@ -1,5 +1,4 @@
 ﻿using DesafioStone.Dominio.Entidades;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 
@@ -7,9 +6,9 @@ namespace DesafioStone.Dominio.Interfaces.Servicos
 {
     public interface IComputadorServico : IDisposable
     {
-        ObjectId Adicionar(Computador computador);
+        string Adicionar(Computador computador);
         void Desativar(Computador computador);
-        Computador Buscar(ObjectId id);
+        Computador Buscar(string id);
         void Atualizar(Computador computador);
         List<Computador> BuscarTudo();
         List<Computador> BuscarTodosLiberados();

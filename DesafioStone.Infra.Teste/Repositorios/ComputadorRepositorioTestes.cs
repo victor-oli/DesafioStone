@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using Xunit;
 using System.Linq;
 using DesafioStone.Dominio.ObjectosValor;
+using DesafioStone.Infra.DataBaseModel;
 
 namespace DesafioStone.Infra.Teste.Repositorios
 {
@@ -17,11 +18,13 @@ namespace DesafioStone.Infra.Teste.Repositorios
             var computador = new Computador("C001", "A01");
 
             // Act
-            ObjectId id = new ComputadorRepositorio().Adicionar(computador);
+            computador.Id = new ComputadorRepositorio().Adicionar(computador);
 
             // Assert
-            Assert.Equal(computador.Id, id);
-            Assert.Equal(true, new ComputadorRepositorio().Buscar(id).Ativo);
+            Assert.NotNull(new ComputadorRepositorio().Buscar(computador.Id));
+            Assert.Equal(true, new ComputadorRepositorio().Buscar(computador.Id).Ativo);
+            //Assert.Equal(computador.Ocorrencias[0].DataOcorrencia.ToLocalTime(), 
+            //    new ComputadorRepositorio().Buscar(id).Ocorrencias[0].DataOcorrencia);
         }
 
         // Testar Consultar por descrição do computador
@@ -45,13 +48,13 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C010", "A02");
-            ObjectId id = new ComputadorRepositorio().Adicionar(computador);
+            computador.Id = new ComputadorRepositorio().Adicionar(computador);
 
             // Act
             new ComputadorRepositorio().Desativar(computador);
 
             // Assert
-            Assert.Equal(false, new ComputadorRepositorio().Buscar(id).Ativo);
+            Assert.Equal(false, new ComputadorRepositorio().Buscar(computador.Id).Ativo);
         }
 
         // Testar update de um computador
@@ -60,7 +63,7 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C012", "A02");
-            ObjectId id = new ComputadorRepositorio().Adicionar(computador);
+            computador.Id = new ComputadorRepositorio().Adicionar(computador);
             computador.Descricao = "C013";
             computador.Andar = "A03";
             computador.Ativo = false;
@@ -81,7 +84,7 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C012", "A02");
-            ObjectId id = new ComputadorRepositorio().Adicionar(computador);
+            string id = new ComputadorRepositorio().Adicionar(computador);
 
             // Act
             var resultado = new ComputadorRepositorio().Buscar(id);

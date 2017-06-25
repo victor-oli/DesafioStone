@@ -1,21 +1,18 @@
 ﻿using DesafioStone.Dominio.ObjectosValor;
-using MongoDB.Bson;
 using System.Collections.Generic;
-using System;
 
 namespace DesafioStone.Dominio.Entidades
 {
     public class Computador
     {
-        public ObjectId Id { get; private set; }
+        public string Id { get; set; }
         public string Descricao { get; set; }
         public string Andar { get; set; }
-        public List<Ocorrencia> Ocorrencias { get; private set; }
+        public List<Ocorrencia> Ocorrencias { get; set; }
         public bool Ativo { get; set; }
 
         public Computador(string descricao, string andar)
         {
-            Id = new ObjectId();
             this.Descricao = descricao.Trim().ToUpper();
             this.Andar = andar.Trim().ToUpper();
             this.Ocorrencias = new List<Ocorrencia>();
@@ -50,11 +47,6 @@ namespace DesafioStone.Dominio.Entidades
         public Ocorrencia PegarUltimaOcorrencia()
         {
             return this.Ocorrencias[this.Ocorrencias.Count - 1];
-        }
-
-        public override string ToString()
-        {
-            return this.Id.ToString();
         }
     }
 }

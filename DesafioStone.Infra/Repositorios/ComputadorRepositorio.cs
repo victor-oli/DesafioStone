@@ -1,41 +1,44 @@
 ﻿using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Infra.BancoDados;
+using DesafioStone.Infra.DataBaseModel;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace DesafioStone.Infra.Repositorios
 {
     public class ComputadorRepositorio : IComputadorRepositorio
     {
-        private IMongoCollection<Computador> _computadores = new MongoDbContext<Computador>().Open("Computador");
+        private IMongoCollection<ComputadorDBM> _computadores = new MongoDbContext<ComputadorDBM>().Open("Computador");
 
-        public ObjectId Adicionar(Computador computador)
+        public string Adicionar(Computador computador)
         {
-            _computadores.InsertOne(computador);
+            ComputadorDBM computadorDBM = new ComputadorDBM(computador);
 
-            return computador.Id;
+            _computadores.InsertOne(computadorDBM);
+
+            return computadorDBM.Id.ToString();
         }
 
         public void Atualizar(Computador computador)
         {
-            _computadores.UpdateOne(x => x.Id == computador.Id,
-                Builders<Computador>.Update
+            _computadores.UpdateOne(x => x.Id == new ObjectId(computador.Id),
+                Builders<ComputadorDBM>.Update
                 .Set(x => x.Descricao, computador.Descricao)
                 .Set(x => x.Andar, computador.Andar)
                 .Set(x => x.Ativo, computador.Ativo));
         }
 
-        public Computador Buscar(ObjectId id)
+        public Computador Buscar(string id)
         {
-            return _computadores.Find(x => x.Id == id).FirstOrDefault();
+            return _computadores.Find(x => x.Id == new ObjectId(id)).FirstOrDefault().ConverterParaComputador();
         }
 
         public Computador BuscarPorDescricao(string descricao)
         {
-            return _computadores.Find(x => x.Descricao == descricao).FirstOrDefault();
+            return _computadores.Find(x => x.Descricao == descricao).FirstOrDefault().ConverterParaComputador();
         }
 
         public IEnumerable<Computador> BuscarTodosLiberados()
@@ -43,10 +46,10 @@ namespace DesafioStone.Infra.Repositorios
             var lista = _computadores.Find(new BsonDocument()).ToEnumerable();
             var listaFiltrada = new List<Computador>();
 
-            foreach (Computador item in lista)
+            foreach (ComputadorDBM item in lista)
             {
                 if (item.Ocorrencias[item.Ocorrencias.Count - 1].Liberado == true)
-                    listaFiltrada.Add(item);
+                    listaFiltrada.Add(item.ConverterParaComputador());
             }
 
             return listaFiltrada;
@@ -57,10 +60,10 @@ namespace DesafioStone.Infra.Repositorios
             var lista = _computadores.Find(new BsonDocument()).ToEnumerable();
             var listaFiltrada = new List<Computador>();
 
-            foreach (Computador item in lista)
+            foreach (ComputadorDBM item in lista)
             {
                 if (item.Ocorrencias[item.Ocorrencias.Count - 1].Liberado == false)
-                    listaFiltrada.Add(item);
+                    listaFiltrada.Add(item.ConverterParaComputador());
             }
 
             return listaFiltrada;
@@ -68,21 +71,32 @@ namespace DesafioStone.Infra.Repositorios
 
         public IEnumerable<Computador> BuscarTodosPorAndar(string andar)
         {
-            return _computadores.Find(Builders<Computador>.Filter
+            IEnumerable<ComputadorDBM> lista = _computadores.Find(Builders<ComputadorDBM>.Filter
                 .Eq(x => x.Andar, andar))
                 .ToEnumerable();
+
+            List<Computador> resultado = new List<Computador>();
+
+            lista.ToList().ForEach(x => resultado.Add(x.ConverterParaComputador()));
+
+            return resultado;
         }
 
         public IEnumerable<Computador> BuscarTudo()
         {
-            return _computadores.Find(new BsonDocument()).ToEnumerable();
+            IEnumerable<ComputadorDBM> lista = _computadores.Find(new BsonDocument()).ToEnumerable();
+            List<Computador> resultado = new List<Computador>();
+
+            lista.ToList().ForEach(x => resultado.Add(x.ConverterParaComputador()));
+
+            return resultado;
         }
 
         public void Desativar(Computador computador)
         {
-            UpdateDefinition<Computador> update = Builders<Computador>.Update.Set("Ativo", false);
+            UpdateDefinition<ComputadorDBM> update = Builders<ComputadorDBM>.Update.Set("Ativo", false);
 
-            _computadores.UpdateOne(x => x.Id == computador.Id, update);
+            _computadores.UpdateOne(x => x.Id == new ObjectId(computador.Id), update);
         }
 
         public void Dispose()
