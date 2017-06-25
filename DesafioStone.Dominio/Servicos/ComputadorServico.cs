@@ -31,22 +31,22 @@ namespace DesafioStone.Dominio.Servicos
             return _repositorio.Buscar(id);
         }
 
-        public IList<Computador> BuscarTodosLiberados()
+        public List<Computador> BuscarTodosLiberados()
         {
             return _repositorio.BuscarTodosLiberados().ToList();
         }
 
-        public IList<Computador> BuscarTodosNaoLiberados()
+        public List<Computador> BuscarTodosNaoLiberados()
         {
             return _repositorio.BuscarTodosNaoLiberados().ToList();
         }
 
-        public IList<Computador> BuscarTodosPorAndar(string andar)
+        public List<Computador> BuscarTodosPorAndar(string andar)
         {
             return _repositorio.BuscarTodosPorAndar(andar).ToList();
         }
 
-        public IList<Computador> BuscarTudo()
+        public List<Computador> BuscarTudo()
         {
             return _repositorio.BuscarTudo().ToList();
         }
