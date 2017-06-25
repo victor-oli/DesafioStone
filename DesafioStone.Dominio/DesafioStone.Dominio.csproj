@@ -33,6 +33,7 @@
     <Compile Include="Entidades\Computador.cs" />
     <Compile Include="Interfaces\Repositorios\IComputadorRepositorio.cs" />
     <Compile Include="Interfaces\Servicos\IComputadorServico.cs" />
+    <Compile Include="ObjectosValor\ComputadorJaExisteException.cs" />
     <Compile Include="ObjectosValor\Ocorrencia.cs" />
     <Compile Include="ObjectosValor\ComputadorEmUsoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

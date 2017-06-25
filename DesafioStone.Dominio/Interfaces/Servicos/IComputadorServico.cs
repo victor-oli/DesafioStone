@@ -15,5 +15,6 @@ namespace DesafioStone.Dominio.Interfaces.Servicos
         List<Computador> BuscarTodosLiberados();
         List<Computador> BuscarTodosNaoLiberados();
         List<Computador> BuscarTodosPorAndar(string andar);
+        Computador BuscarPorDescricao(string descricao);
     }
 }

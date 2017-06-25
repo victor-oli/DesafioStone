@@ -5,6 +5,7 @@ using DesafioStone.Dominio.ObjectosValor;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace DesafioStone.Dominio.Servicos
 {
@@ -19,6 +20,9 @@ namespace DesafioStone.Dominio.Servicos
 
         public ObjectId Adicionar(Computador computador)
         {
+            if (_repositorio.BuscarPorDescricao(computador.Descricao.Trim().ToUpper()) != null)
+                throw new ComputadorJaExisteException();
+
             return _repositorio.Adicionar(computador);
         }
 
@@ -30,6 +34,11 @@ namespace DesafioStone.Dominio.Servicos
         public Computador Buscar(ObjectId id)
         {
             return _repositorio.Buscar(id);
+        }
+
+        public Computador BuscarPorDescricao(string descricao)
+        {
+            return _repositorio.BuscarPorDescricao(descricao);
         }
 
         public List<Computador> BuscarTodosLiberados()

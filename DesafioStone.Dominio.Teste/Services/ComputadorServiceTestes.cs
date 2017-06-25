@@ -32,6 +32,39 @@ namespace DesafioStone.Dominio.Teste.Services
             Assert.Null(null);
         }
 
+        // Validar adição de um computador com a mesma descrição
+        [Fact]
+        public void ComputadorService_AdicionarComMesmaDescricao_RetornarException()
+        {
+            // Arrange
+            var computador = new Computador("C001", "A01");
+            var repositorio = new Mock<IComputadorRepositorio>();
+            repositorio.Setup(x => x.Adicionar(computador)).Throws(new ComputadorJaExisteException());
+            var servico = new ComputadorServico(repositorio.Object);
+
+            // Act & Assert
+            var ex = Assert.Throws<ComputadorJaExisteException>(() => servico.Adicionar(computador));
+            Assert.Equal("Já existe um computador com este nome!", ex.Message);
+        }
+
+        // Testar consultar por descrição
+        [Fact]
+        public void ComputadorService_ConsultarPorDescricao_RetornarComputador()
+        {
+            // Arrange
+            string descricao = "C001";
+            var repositorio = new Mock<IComputadorRepositorio>();
+            repositorio.Setup(x => x.BuscarPorDescricao(descricao)).Returns(new Computador("C001", "A01"));
+            var servico = new ComputadorServico(repositorio.Object);
+
+            // Act
+            var computador = servico.BuscarPorDescricao(descricao);
+
+            // Assert
+            Assert.NotNull(computador);
+            Assert.Equal(descricao, computador.Descricao);
+        }
+
         // Testar update de um computador
         [Fact]
         public void ComputadorService_AtualizarUmComputador_ValidarComunicacaoComORepositorio()
