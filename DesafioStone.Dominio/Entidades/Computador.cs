@@ -50,5 +50,10 @@ namespace DesafioStone.Dominio.Entidades
         {
             return this.Ocorrencias[this.Ocorrencias.Count - 1];
         }
+
+        public override string ToString()
+        {
+            return this.Id.ToString();
+        }
     }
 }
