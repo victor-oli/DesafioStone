@@ -1,7 +1,9 @@
 ﻿using DesafioStone.App.AppServicos;
 using DesafioStone.App.ViewModels;
+using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Dominio.Interfaces.Servicos;
+using DesafioStone.Dominio.ObjectosValor;
 using Moq;
 using Xunit;
 
@@ -27,6 +29,25 @@ namespace DesafioStone.App.Testes.Servicos
             // Assert
             Assert.NotNull(computador.Id);
 
+        }
+
+        // validar exception ao desativar um computador
+        [Fact]
+        public void ComputadorAppService_DesativarComputadorNaoLiberado_RetornarException()
+        {
+            // Arrange
+            var computador = new Computador("C001", "A01");
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Desativar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.Desativar(computador))
+                .Throws(new ComputadorEmUsoException("Não é possível desativar um computador em uso!"));
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act & Assert
+            var ex = Assert.Throws<ComputadorEmUsoException>(() => appServico.Desativar(computador));
+            Assert.NotNull(ex);
+            Assert.Equal("Não é possível desativar um computador em uso!", ex.Message);
         }
 
         // validar buscar um computador pelo id
