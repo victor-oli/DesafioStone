@@ -11,7 +11,7 @@ namespace DesafioStone.App.Testes.ViewModels
         public void ConsultaComputadorViewModel_ValidarEntrada_ResultadoValido()
         {
             // Arrange
-            var vm = new ConsultaComputadorViewModel();
+            var vm = new ConsultarComputadorViewModel();
             vm.Id = "123";
 
             // Act
@@ -28,7 +28,7 @@ namespace DesafioStone.App.Testes.ViewModels
         public void ConsultaComputadorViewModel_ValidarEntradaPorDescricao_ResultadoValido()
         {
             // Arrange
-            var vm = new ConsultaComputadorViewModel();
+            var vm = new ConsultarComputadorViewModel();
             vm.Descricao = "C011";
 
             // Act
@@ -49,7 +49,7 @@ namespace DesafioStone.App.Testes.ViewModels
             computador.Id = "123";
 
             // Act
-            var vm = ConsultaComputadorViewModel.Fabrica.Gerar(computador);
+            var vm = ConsultarComputadorViewModel.Fabrica.Gerar(computador);
 
             // Assert
             Assert.NotNull(vm);

@@ -5,6 +5,7 @@ using DesafioStone.Dominio.Interfaces.Repositorios;
 using DesafioStone.Dominio.Interfaces.Servicos;
 using DesafioStone.Dominio.ObjectosValor;
 using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace DesafioStone.App.Testes.Servicos
@@ -103,7 +104,7 @@ namespace DesafioStone.App.Testes.Servicos
         public void ComputadorAppService_BuscarComputadorPorDescricao_RetornoValido()
         {
             // Arrange
-            var vm = new ConsultaComputadorViewModel();
+            var vm = new ConsultarComputadorViewModel();
             vm.Descricao = "C001";
             var computador = new Computador("C001", "A01");
             var repo = new Mock<IComputadorRepositorio>();
@@ -145,9 +146,101 @@ namespace DesafioStone.App.Testes.Servicos
         }
 
         // validar buscar todos os computadores
+        [Fact]
+        public void ComputadorAppService_BuscarTodos_RetornoValido()
+        {
+            // Arrange
+            var lista = new List<Computador>();
+            lista.Add(new Computador("C001", "A01"));
+            lista.Add(new Computador("C002", "A01"));
+            lista.Add(new Computador("C003", "A01"));
+
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.BuscarTudo()).Returns(lista);
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarTudo()).Returns(lista);
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            var resultado = appServico.BuscarTodos();
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.True(resultado.Count >= 3);
+        }
+
         // validar buscar todos os computadores liberados
+        [Fact]
+        public void ComputadorAppService_BuscarTodosLiberados_RetornoValido()
+        {
+            // Arrange
+            var lista = new List<Computador>();
+            lista.Add(new Computador("C001", "A01"));
+            lista.Add(new Computador("C002", "A01"));
+            lista.Add(new Computador("C003", "A01"));
+
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.BuscarTodosLiberados()).Returns(lista);
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarTodosLiberados()).Returns(lista);
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            var resultado = appServico.BuscarTodosLiberados();
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.True(resultado.Count >= 3);
+        }
+
         // validar buscar todos os computadores não-liberados
+        [Fact]
+        public void ComputadorAppService_BuscarTodosNaoLiberados_RetornoValido()
+        {
+            // Arrange
+            var lista = new List<Computador>();
+            lista.Add(new Computador("C001", "A01"));
+            lista.Add(new Computador("C002", "A01"));
+            lista.Add(new Computador("C003", "A01"));
+
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.BuscarTodosNaoLiberados()).Returns(lista);
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarTodosNaoLiberados()).Returns(lista);
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            var resultado = appServico.BuscarTodosNaoLiberados();
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.True(resultado.Count >= 3);
+        }
+
         // validar buscar todos os combutadores por andar
+        [Fact]
+        public void ComputadorAppService_BuscarTodosPorAndar_RetornoValido()
+        {
+            // Arrange
+            var andar = "A01";
+            var lista = new List<Computador>();
+            lista.Add(new Computador("C001", andar));
+            lista.Add(new Computador("C002", andar));
+
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.BuscarTodosPorAndar(andar)).Returns(lista);
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarTodosPorAndar(andar)).Returns(lista);
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            var resultado = appServico.BuscarTodosPorAndar(andar);
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.True(resultado.Count == 2);
+        }
+
         // validar informar a utilização de um computador
         // validar informar a liberação de um computador
     }

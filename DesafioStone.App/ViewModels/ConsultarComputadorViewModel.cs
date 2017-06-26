@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DesafioStone.App.ViewModels
 {
-    public class ConsultaComputadorViewModel
+    public class ConsultarComputadorViewModel
     {
         public string ResultadoTransacao { get; set; }
         public string Id { get; set; }
@@ -31,9 +31,9 @@ namespace DesafioStone.App.ViewModels
 
         public class Fabrica
         {
-            public static ConsultaComputadorViewModel Gerar(Computador computador)
+            public static ConsultarComputadorViewModel Gerar(Computador computador)
             {
-                return new ConsultaComputadorViewModel()
+                return new ConsultarComputadorViewModel()
                 {
                     Id = computador.Id,
                     Descricao = computador.Descricao,

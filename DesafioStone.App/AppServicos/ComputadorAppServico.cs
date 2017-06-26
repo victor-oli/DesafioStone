@@ -1,4 +1,6 @@
-﻿using DesafioStone.App.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
 using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
@@ -19,36 +21,76 @@ namespace DesafioStone.App.AppServicos
             return _servico.Adicionar(computador);
         }
 
-        public ConsultaComputadorViewModel Buscar(string id)
+        public ConsultarComputadorViewModel Buscar(string id)
         {
             var computador = _servico.Buscar(id);
-            ConsultaComputadorViewModel resultado = null;
+            ConsultarComputadorViewModel resultado = null;
 
             if (computador != null)
-                resultado = ConsultaComputadorViewModel.Fabrica.Gerar(computador);
+                resultado = ConsultarComputadorViewModel.Fabrica.Gerar(computador);
             else
             {
-                resultado = new ConsultaComputadorViewModel();
+                resultado = new ConsultarComputadorViewModel();
                 resultado.ResultadoTransacao = "Computador não existe";
             }
 
             return resultado;
         }
 
-        public ConsultaComputadorViewModel BuscarPorDescricao(string descricao)
+        public ConsultarComputadorViewModel BuscarPorDescricao(string descricao)
         {
             var computador = _servico.BuscarPorDescricao(descricao);
-            ConsultaComputadorViewModel resultado = null;
+            ConsultarComputadorViewModel resultado = null;
 
             if (computador != null)
-                resultado = ConsultaComputadorViewModel.Fabrica.Gerar(computador);
+                resultado = ConsultarComputadorViewModel.Fabrica.Gerar(computador);
             else
             {
-                resultado = new ConsultaComputadorViewModel();
+                resultado = new ConsultarComputadorViewModel();
                 resultado.ResultadoTransacao = "Computador não existe";
             }
 
             return resultado;
+        }
+
+        public List<ConsultarTudoViewModel> BuscarTodos()
+        {
+            var computadores = _servico.BuscarTudo();
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
+
+            computadores.ForEach(x => lista.Add(new ConsultarTudoViewModel(x)));
+
+            return lista;
+        }
+
+        public List<ConsultarTudoViewModel> BuscarTodosLiberados()
+        {
+            var computadores = _servico.BuscarTodosLiberados();
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
+
+            computadores.ForEach(x => lista.Add(new ConsultarTudoViewModel(x)));
+
+            return lista;
+        }
+
+        public List<ConsultarTudoViewModel> BuscarTodosNaoLiberados()
+        {
+            var computadores = _servico.BuscarTodosNaoLiberados();
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
+
+            computadores.ForEach(x => lista.Add(new ConsultarTudoViewModel(x)));
+
+            return lista;
+        }
+
+        public List<ConsultarTudoViewModel> BuscarTodosPorAndar(string andar)
+        {
+            var computadores = _servico.BuscarTodosPorAndar(andar);
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
+
+            computadores.ForEach(x => lista.Add(new ConsultarTudoViewModel(x)));
+
+            return lista;
         }
 
         public void Desativar(DesativarComputadorViewModel computadorVm)
