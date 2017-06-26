@@ -242,6 +242,18 @@ namespace DesafioStone.App.Testes.Servicos
         }
 
         // validar informar a utilização de um computador
+        [Fact]
+        public void ComputadorAppService_InformarUtilizacao_RetornoValido()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
+
+        // validar informar utilização com exception de computador em uso
+        // validar informar utilização com exception de computador desativado
         // validar informar a liberação de um computador
     }
 }
