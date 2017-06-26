@@ -81,6 +81,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\ComputadorAppServiceTestes.cs" />
     <Compile Include="ViewModels\AdicionarViewModelTestes.cs" />
+    <Compile Include="ViewModels\ConsultaComputadorViewModelTestes.cs" />
+    <Compile Include="ViewModels\DesativarComputadorViewModelTestes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

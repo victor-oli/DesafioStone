@@ -44,6 +44,8 @@
     <Compile Include="Interfaces\IComputadorAppServico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AdicionarViewModel.cs" />
+    <Compile Include="ViewModels\ConsultaComputadorViewModel.cs" />
+    <Compile Include="ViewModels\DesativarComputadorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DesafioStone.Dominio\DesafioStone.Dominio.csproj">
