@@ -11,15 +11,33 @@ namespace DesafioStone.App.Testes.ViewModels
         public void ConsultaComputadorViewModel_ValidarEntrada_ResultadoValido()
         {
             // Arrange
-            var vm = new ConsultaComputadorViewModel("123");
+            var vm = new ConsultaComputadorViewModel();
+            vm.Id = "123";
 
             // Act
-            vm.EhValido();
+            vm.ConsultaPorIdEhValida();
 
             // Assert
             Assert.NotNull(vm);
             Assert.True(!string.IsNullOrEmpty(vm.Id));
             Assert.Equal("123", vm.Id);
+        }
+
+        // validar viewmodel de consulta para consultar por descricao
+        [Fact]
+        public void ConsultaComputadorViewModel_ValidarEntradaPorDescricao_ResultadoValido()
+        {
+            // Arrange
+            var vm = new ConsultaComputadorViewModel();
+            vm.Descricao = "C011";
+
+            // Act
+            vm.ConsultaPorDescricaoEhValida();
+
+            // Assert
+            Assert.NotNull(vm);
+            Assert.True(!string.IsNullOrEmpty(vm.Descricao));
+            Assert.Equal("C011", vm.Descricao);
         }
 
         // validar viewmodel preenchida pela consulta bem-sucedida

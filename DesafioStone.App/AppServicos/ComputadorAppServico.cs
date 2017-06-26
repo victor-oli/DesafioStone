@@ -28,7 +28,23 @@ namespace DesafioStone.App.AppServicos
                 resultado = ConsultaComputadorViewModel.Fabrica.Gerar(computador);
             else
             {
-                resultado = new ConsultaComputadorViewModel(null);
+                resultado = new ConsultaComputadorViewModel();
+                resultado.ResultadoTransacao = "Computador não existe";
+            }
+
+            return resultado;
+        }
+
+        public ConsultaComputadorViewModel BuscarPorDescricao(string descricao)
+        {
+            var computador = _servico.BuscarPorDescricao(descricao);
+            ConsultaComputadorViewModel resultado = null;
+
+            if (computador != null)
+                resultado = ConsultaComputadorViewModel.Fabrica.Gerar(computador);
+            else
+            {
+                resultado = new ConsultaComputadorViewModel();
                 resultado.ResultadoTransacao = "Computador não existe";
             }
 

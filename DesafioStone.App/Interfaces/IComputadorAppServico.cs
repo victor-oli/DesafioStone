@@ -9,5 +9,6 @@ namespace DesafioStone.App.Interfaces
         string Adicionar(Computador computador);
         void Desativar(DesativarComputadorViewModel computadorVm);
         ConsultaComputadorViewModel Buscar(string id);
+        ConsultaComputadorViewModel BuscarPorDescricao(string descricao);
     }
 }
