@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using DesafioStone.App.Interfaces;
+﻿using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
 using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
+using System.Collections.Generic;
 
 namespace DesafioStone.App.AppServicos
 {
@@ -104,6 +103,42 @@ namespace DesafioStone.App.AppServicos
         public void Dispose()
         {
             _servico.Dispose();
+        }
+
+        public LiberarComputadorViewModel LiberarComputador(LiberarComputadorViewModel viewModel)
+        {
+            var computador = _servico.BuscarPorDescricao(viewModel.DescricaoComputador);
+
+            if (computador == null)
+            {
+                viewModel.Resultado = string.Format("O computador {0} não existe.", viewModel.DescricaoComputador);
+            }
+            else
+            {
+                computador.InformarLiberacao();
+                _servico.Atualizar(computador);
+
+                viewModel.Resultado = string.Format("O computador {0} foi liberado.", viewModel.DescricaoComputador);
+            }
+
+            return viewModel;
+        }
+
+        public UtilizarComputadorViewModel UtilizarComputador(UtilizarComputadorViewModel viewModel)
+        {
+            var computador = _servico.BuscarPorDescricao(viewModel.Descricao);
+
+            if (computador == null)
+                viewModel.Resultado = "O computador informado não existe!";
+            else
+            {
+                computador.InformarUso();
+                _servico.Atualizar(computador);
+
+                viewModel.Resultado = "Agora este computador está em uso.";
+            }
+
+            return viewModel;
         }
     }
 }

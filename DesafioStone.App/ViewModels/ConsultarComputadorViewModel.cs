@@ -44,5 +44,15 @@ namespace DesafioStone.App.ViewModels
                 };
             }
         }
+
+        public Ocorrencia PegarUltimaOcorrencia()
+        {
+            return this.Ocorrencias[this.Ocorrencias.Count - 1];
+        }
+
+        public bool VerificarDisponibilidade()
+        {
+            return PegarUltimaOcorrencia().Liberado;
+        }
     }
 }

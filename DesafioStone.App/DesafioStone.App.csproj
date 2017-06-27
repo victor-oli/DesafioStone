@@ -47,6 +47,8 @@
     <Compile Include="ViewModels\ConsultarComputadorViewModel.cs" />
     <Compile Include="ViewModels\ConsultarTudoViewModel.cs" />
     <Compile Include="ViewModels\DesativarComputadorViewModel.cs" />
+    <Compile Include="ViewModels\LiberarComputadorViewModel.cs" />
+    <Compile Include="ViewModels\UtilizarComputadorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DesafioStone.Dominio\DesafioStone.Dominio.csproj">

@@ -246,14 +246,139 @@ namespace DesafioStone.App.Testes.Servicos
         public void ComputadorAppService_InformarUtilizacao_RetornoValido()
         {
             // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C001";
+            var computador = new Computador("C001", "A01");
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Atualizar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarPorDescricao(vm.Descricao)).Returns(computador);
+            servico.Setup(x => x.Atualizar(computador));
+            var appServico = new ComputadorAppServico(servico.Object);
 
             // Act
+            vm = appServico.UtilizarComputador(vm);
 
             // Assert
+            Assert.True(!appServico.BuscarPorDescricao(vm.Descricao).VerificarDisponibilidade());
+            Assert.Equal(false, appServico.BuscarPorDescricao(vm.Descricao).PegarUltimaOcorrencia().Liberado);
+            Assert.Equal("Agora este computador está em uso.", vm.Resultado);
+        }
+
+        // validar informar utilização de um computador que não existe
+        [Fact]
+        public void ComputadorAppService_InformarUtilizacao_ComputadorNaoExiste()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C001";
+            var computador = new Computador("C001", "A01");
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Atualizar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarPorDescricao(vm.Descricao));
+            servico.Setup(x => x.Atualizar(computador));
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            vm = appServico.UtilizarComputador(vm);
+
+            // Assert
+            Assert.Equal("O computador informado não existe!", vm.Resultado);
+            Assert.Equal("Computador não existe", appServico.BuscarPorDescricao(vm.Descricao).ResultadoTransacao);
         }
 
         // validar informar utilização com exception de computador em uso
+        [Fact]
+        public void ComputadorAppService_InformarUtilizacao_RetornarComputadorEmUsoException()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C001";
+            var computador = new Computador("C001", "A01");
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Atualizar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarPorDescricao(vm.Descricao)).Returns(computador);
+            servico.Setup(x => x.Atualizar(computador))
+                .Throws(new ComputadorEmUsoException("Não é possível utilizar um computador em uso!"));
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act & Assert
+            var ex = Assert.Throws<ComputadorEmUsoException>(() => appServico.UtilizarComputador(vm));
+            Assert.NotNull(ex);
+            Assert.Equal("Não é possível utilizar um computador em uso!", ex.Message);
+        }
+
         // validar informar utilização com exception de computador desativado
+        [Fact]
+        public void ComputadorAppService_InformarUtilizacao_RetornarComputadorDesativadoException()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C001";
+            var computador = new Computador("C001", "A01");
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Atualizar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarPorDescricao(vm.Descricao)).Returns(computador);
+            servico.Setup(x => x.Atualizar(computador))
+                .Throws(new ComputadorDesativadoException());
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act & Assert
+            var ex = Assert.Throws<ComputadorDesativadoException>(() => appServico.UtilizarComputador(vm));
+            Assert.NotNull(ex);
+            Assert.Equal("Computador desativado. Não é possível utilizar este computador!", ex.Message);
+        }
+
         // validar informar a liberação de um computador
+        [Fact]
+        public void ComputadorAppService_InformarLiberacaoDoComputador_ComputadorLiberado()
+        {
+            // Arrange
+            var vm = new LiberarComputadorViewModel();
+            vm.DescricaoComputador = "C001";
+            var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Atualizar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarPorDescricao(vm.DescricaoComputador)).Returns(computador);
+            servico.Setup(x => x.Atualizar(computador));
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            vm = appServico.LiberarComputador(vm);
+
+            // Assert
+            Assert.NotNull(vm);
+            Assert.Equal(string.Format("O computador {0} foi liberado.", vm.DescricaoComputador), vm.Resultado);
+            Assert.True(appServico.BuscarPorDescricao(vm.DescricaoComputador).PegarUltimaOcorrencia().Liberado);
+        }
+
+        // Validar informar liberação de um computador que não existe
+        [Fact]
+        public void ComputadorAppService_InformarLiberacaoDoComputador_ComputadorNaoExiste()
+        {
+            // Arrange
+            var vm = new LiberarComputadorViewModel();
+            vm.DescricaoComputador = "C001";
+            var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
+            var repo = new Mock<IComputadorRepositorio>();
+            repo.Setup(x => x.Atualizar(computador));
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.BuscarPorDescricao(vm.DescricaoComputador));
+            servico.Setup(x => x.Atualizar(computador));
+            var appServico = new ComputadorAppServico(servico.Object);
+
+            // Act
+            vm = appServico.LiberarComputador(vm);
+
+            // Assert
+            Assert.Equal(string.Format("O computador {0} não existe.", vm.DescricaoComputador), vm.Resultado);
+            Assert.Equal("Computador não existe", appServico.BuscarPorDescricao(vm.DescricaoComputador).ResultadoTransacao);
+        }
     }
 }

@@ -88,5 +88,20 @@ namespace DesafioStone.Dominio.Teste.Entidades
             Assert.True(computador.Ativo);
             Assert.NotEqual("Computador desativado", computador.PegarUltimaOcorrencia().Descricao);
         }
+
+        // Validar liberação de um computador
+        [Fact]
+        public void Computador_LiberarComputador_RetornoValido()
+        {
+            // Arrange
+            var computador = new Computador("C001", "A02");
+
+            // Act
+            computador.InformarLiberacao();
+
+            // Assert
+            Assert.Equal("Computador liberado".ToUpper(), computador.PegarUltimaOcorrencia().Descricao);
+            Assert.True(computador.PegarUltimaOcorrencia().Liberado);
+        }
     }
 }

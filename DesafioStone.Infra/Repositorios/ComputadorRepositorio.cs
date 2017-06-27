@@ -28,7 +28,8 @@ namespace DesafioStone.Infra.Repositorios
                 Builders<ComputadorDBM>.Update
                 .Set(x => x.Descricao, computador.Descricao)
                 .Set(x => x.Andar, computador.Andar)
-                .Set(x => x.Ativo, computador.Ativo));
+                .Set(x => x.Ativo, computador.Ativo)
+                .Set(x => x.Ocorrencias, computador.Ocorrencias));
         }
 
         public Computador Buscar(string id)

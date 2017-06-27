@@ -31,6 +31,11 @@ namespace DesafioStone.Dominio.ObjectosValor
             {
                 return new Ocorrencia("Computador em uso", false);
             }
+
+            public static Ocorrencia ComputadorLiberado()
+            {
+                return new Ocorrencia("Computador liberado", true);
+            }
         }
     }
 }

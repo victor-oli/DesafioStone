@@ -34,6 +34,11 @@ namespace DesafioStone.Dominio.Entidades
             this.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
         }
 
+        public void InformarLiberacao()
+        {
+            Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorLiberado());
+        }
+
         public void Desativar()
         {
             if (!VerificarDisponibilidade())

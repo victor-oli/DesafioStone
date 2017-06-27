@@ -15,5 +15,7 @@ namespace DesafioStone.App.Interfaces
         List<ConsultarTudoViewModel> BuscarTodosLiberados();
         List<ConsultarTudoViewModel> BuscarTodosNaoLiberados();
         List<ConsultarTudoViewModel> BuscarTodosPorAndar(string andar);
+        UtilizarComputadorViewModel UtilizarComputador(UtilizarComputadorViewModel viewModel);
+        LiberarComputadorViewModel LiberarComputador(LiberarComputadorViewModel viewModel);
     }
 }
