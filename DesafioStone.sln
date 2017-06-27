@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioStone.App", "Desafio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioStone.Api", "DesafioStone.Api\DesafioStone.Api.csproj", "{AD677624-E99C-423A-836E-6BF3F13CE556}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioStone.Api.Testes", "DesafioStone.Api.Testes\DesafioStone.Api.Testes.csproj", "{BF764B79-3796-420D-B0BE-EA4191D07A7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{AD677624-E99C-423A-836E-6BF3F13CE556}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD677624-E99C-423A-836E-6BF3F13CE556}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD677624-E99C-423A-836E-6BF3F13CE556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF764B79-3796-420D-B0BE-EA4191D07A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF764B79-3796-420D-B0BE-EA4191D07A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF764B79-3796-420D-B0BE-EA4191D07A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF764B79-3796-420D-B0BE-EA4191D07A7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,5 +79,6 @@ Global
 		{C4D42B0A-E2B8-4588-9629-643C4E69E48D} = {AD2C99F8-E64F-47F4-911D-7D3EF6476DA2}
 		{19583E2F-B682-49B9-9C6D-E33BA97CDBFC} = {454E00B9-6A6C-48F5-95CC-C9886B0142D8}
 		{AD677624-E99C-423A-836E-6BF3F13CE556} = {64761602-F341-475E-AAD5-F75D474CB300}
+		{BF764B79-3796-420D-B0BE-EA4191D07A7A} = {AD2C99F8-E64F-47F4-911D-7D3EF6476DA2}
 	EndGlobalSection
 EndGlobal
