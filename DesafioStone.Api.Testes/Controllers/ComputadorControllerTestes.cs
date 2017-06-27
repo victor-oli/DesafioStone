@@ -182,6 +182,12 @@ namespace DesafioStone.Api.Testes.Controllers
         // validar entrada de dados inválidos ao informar utilização
         
         // validar informar utilização
+        [Fact]
+        public void ComputadorController_InformarUtilizacao_UtilizacaoInformada()
+        {
+            // Arrange
+
+        }
 
 
         // validar informar utilização de um computador em uso
