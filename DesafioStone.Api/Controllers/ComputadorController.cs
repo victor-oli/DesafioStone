@@ -57,5 +57,14 @@ namespace DesafioStone.Api.Controllers
                 };
             }
         }
+
+        [HttpPost]
+        public HttpResponseMessage DesativarComputador(HttpRequestMessage request)
+        {
+            return new HttpResponseMessage
+            {
+                Content = new StringContent("O computador foi desativado.")
+            };
+        }
     }
 }

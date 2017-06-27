@@ -26,6 +26,7 @@ namespace DesafioStone.Api.Testes.Controllers
             body.Descricao = "C001";
             body.Andar = "A01";
             var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.Adicionar(body)).Returns("123");
 
             // Act
             var response = new ComputadorController(appServico.Object)
@@ -36,11 +37,11 @@ namespace DesafioStone.Api.Testes.Controllers
 
             // Assert
             Assert.True(body.EhValido());
-            Assert.True(!string.IsNullOrEmpty(response.Content.ReadAsAsync<AdicionarViewModel>().Result.Descricao.Trim()));
-            Assert.True(!string.IsNullOrEmpty(response.Content.ReadAsAsync<AdicionarViewModel>().Result.Andar.Trim()));
+            Assert.True(!string.IsNullOrEmpty(body.Descricao.Trim()));
+            Assert.True(!string.IsNullOrEmpty(body.Andar.Trim()));
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal(body, response.Content.ReadAsAsync<AdicionarViewModel>().Result);
+            Assert.Equal("123", response.Content.ReadAsStringAsync().Result);
         }
 
         // validar entrada de dados inválidos no cadastro
@@ -153,6 +154,7 @@ namespace DesafioStone.Api.Testes.Controllers
             // Arrange
             var vm = new DesativarComputadorViewModel("123");
             var computadorVm = new ConsultarComputadorViewModel();
+            computadorVm.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorDesativado());
             computadorVm.Id = "123";
             var appServico = new Mock<IComputadorAppServico>();
             appServico.Setup(x => x.Desativar(vm));
@@ -160,20 +162,28 @@ namespace DesafioStone.Api.Testes.Controllers
 
             // Act
             var response = new ComputadorController(appServico.Object)
-                .DesativarComputador(new HttpResponseMessage
+                .DesativarComputador(new HttpRequestMessage
                 {
-                    Content = new StringContent(vm.Id)
+                    Content = new ObjectContent<DesativarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 });
 
             // Assert
-
+            Assert.Equal(vm.Id, appServico.Object.Buscar(computadorVm.Id).Id);
+            Assert.False(appServico.Object.Buscar(computadorVm.Id).PegarUltimaOcorrencia().Liberado);
+            Assert.False(appServico.Object.Buscar(computadorVm.Id).Ativo);
+            Assert.NotNull(response);
+            Assert.NotNull(response.Content);
+            Assert.Equal("O computador foi desativado.", response.Content.ReadAsStringAsync().Result);
         }
 
         // validar desativar computador em uso
 
         // validar entrada de dados válidos ao informar utilização
         // validar entrada de dados inválidos ao informar utilização
+        
         // validar informar utilização
+
+
         // validar informar utilização de um computador em uso
         // validar informar utilização de um computador desativado
         // validar informar utilização de um computador inexistente

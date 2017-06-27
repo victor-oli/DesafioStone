@@ -29,6 +29,11 @@ namespace DesafioStone.App.ViewModels
             return true;
         }
 
+        public ConsultarComputadorViewModel()
+        {
+            Ocorrencias = new List<Ocorrencia>();
+        }
+
         public class Fabrica
         {
             public static ConsultarComputadorViewModel Gerar(Computador computador)
