@@ -15,7 +15,9 @@ namespace DesafioStone.App.Testes.ViewModels
         public void AdicionarViewModel_ValidarConsistencia_RetornoPositivo()
         {
             // Arrange
-            var vm = new AdicionarViewModel("C001", "A10");
+            var vm = new AdicionarViewModel();
+            vm.Descricao = "C001";
+            vm.Andar = "A10";
 
             // Act
             var retorno = vm.EhValido();
@@ -31,7 +33,9 @@ namespace DesafioStone.App.Testes.ViewModels
         public void AdicionarViewModel_DevolverComputador_ValidadarRetorno()
         {
             // Arrange
-            var vm = new AdicionarViewModel("C001", "A10");
+            var vm = new AdicionarViewModel();
+            vm.Descricao = "C001";
+            vm.Andar = "A10";
 
             // Act
             var computador = vm.GerarComputador();

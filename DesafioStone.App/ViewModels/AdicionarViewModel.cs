@@ -4,14 +4,8 @@ namespace DesafioStone.App.ViewModels
 {
     public class AdicionarViewModel
     {
-        public string Descricao { get; private set; }
-        public string Andar { get; private set; }
-
-        public AdicionarViewModel(string descricao, string andar)
-        {
-            Descricao = descricao.Trim().ToUpper();
-            Andar = andar.Trim().ToUpper();
-        }
+        public string Descricao { get; set; }
+        public string Andar { get; set; }
 
         public bool EhValido()
         {

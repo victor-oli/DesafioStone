@@ -17,7 +17,10 @@ namespace DesafioStone.App.Testes.Servicos
         public void ComputadorAppService_AdicionarComputador_Validar()
         {
             // Arrange
-            var computador = new AdicionarViewModel("C001", "A01").GerarComputador();
+            var vm = new AdicionarViewModel();
+            vm.Descricao = "C001";
+            vm.Andar = "A01";
+            var computador = vm.GerarComputador();
             var repo = new Mock<IComputadorRepositorio>();
             repo.Setup(x => x.Adicionar(computador)).Returns("123");
             computador.Id = "123";
