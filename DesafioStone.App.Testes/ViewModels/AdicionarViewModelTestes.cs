@@ -1,9 +1,4 @@
 ﻿using DesafioStone.App.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DesafioStone.App.Testes.ViewModels
@@ -38,7 +33,7 @@ namespace DesafioStone.App.Testes.ViewModels
             vm.Andar = "A10";
 
             // Act
-            var computador = vm.GerarComputador();
+            var computador = vm.RetornarComputador();
 
             // Assert
             Assert.NotNull(computador);

@@ -18,7 +18,7 @@ namespace DesafioStone.App.ViewModels
             return true;
         }
 
-        public Computador GerarComputador()
+        public Computador RetornarComputador()
         {
             return new Computador(Descricao, Andar);
         }

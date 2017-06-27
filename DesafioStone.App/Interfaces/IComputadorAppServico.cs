@@ -7,7 +7,7 @@ namespace DesafioStone.App.Interfaces
 {
     public interface IComputadorAppServico : IDisposable
     {
-        string Adicionar(Computador computador);
+        string Adicionar(AdicionarViewModel viewModel);
         void Desativar(DesativarComputadorViewModel computadorVm);
         ConsultarComputadorViewModel Buscar(string id);
         ConsultarComputadorViewModel BuscarPorDescricao(string descricao);

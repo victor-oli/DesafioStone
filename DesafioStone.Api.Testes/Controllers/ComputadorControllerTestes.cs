@@ -1,6 +1,7 @@
 ﻿using DesafioStone.Api.Controllers;
 using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
+using DesafioStone.Dominio.ObjectosValor;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,10 @@ namespace DesafioStone.Api.Testes.Controllers
             // Arrange
             var body = new AdicionarViewModel();
             body.Descricao = "C001";
-            body.Andar = "A10";
+            body.Andar = "A01";
             var appServico = new Mock<IComputadorAppServico>();
 
             // Act
-            var resultado = body.EhValido();
             var response = new ComputadorController(appServico.Object)
                 .CadastrarComputador(new HttpRequestMessage
                 {
@@ -35,7 +35,7 @@ namespace DesafioStone.Api.Testes.Controllers
                 });
 
             // Assert
-            Assert.True(resultado);
+            Assert.True(body.EhValido());
             Assert.True(!string.IsNullOrEmpty(response.Content.ReadAsAsync<AdicionarViewModel>().Result.Descricao.Trim()));
             Assert.True(!string.IsNullOrEmpty(response.Content.ReadAsAsync<AdicionarViewModel>().Result.Andar.Trim()));
             Assert.NotNull(response);
@@ -54,7 +54,6 @@ namespace DesafioStone.Api.Testes.Controllers
             var appServico = new Mock<IComputadorAppServico>();
 
             // Act
-            var resultado = body.EhValido();
             var response = new ComputadorController(appServico.Object)
                 .CadastrarComputador(new HttpRequestMessage
                 {
@@ -62,34 +61,114 @@ namespace DesafioStone.Api.Testes.Controllers
                 });
 
             // Assert
-            Assert.False(resultado);
+            Assert.False(body.EhValido());
             Assert.True(string.IsNullOrEmpty(body.Descricao.Trim()));
             Assert.True(string.IsNullOrEmpty(body.Andar.Trim()));
             Assert.NotNull(response);
             Assert.NotNull(response.Content);
-            Assert.Equal("", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("Não é possível cadastrar um cadastrar um computador com essas informações.", response.Content.ReadAsStringAsync().Result);
         }
 
-        // validar entrada com formato inválido no cadastro
         // validar exception no cadastro
+        [Fact]
+        public void ComputadorController_ValidarCadastro_ExceptionTratada()
+        {
+            // Arrange
+            var body = new AdicionarViewModel();
+            body.Andar = "A01";
+            body.Descricao = null;
+            var appServico = new Mock<IComputadorAppServico>();
+            var controller = new ComputadorController(appServico.Object);
 
-        // validar cadastro de um novo computador
-        //[Fact]
-        //public void ComputadorController_CadastrarComputador_RetornoValido()
-        //{
-        //    // Arrange
-        //    var vm = new AdicionarViewModel("C010", "A10");
+            // Act
+            var response = controller
+                .CadastrarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<AdicionarViewModel>(body, new JsonMediaTypeFormatter())
+                });
 
-        //    // Act
-
-        //    // Assert
-        //}
+            // Assert
+            Assert.NotNull(response);
+            Assert.NotNull(response.Content);
+            Assert.Equal("Cadastro inválido! Você deve informar Descrição e Andar.", response.Content.ReadAsStringAsync().Result);
+        }
 
         // validar cadastro de um computador já existente
+        [Fact]
+        public void ComputadorController_CadastrarComputador_ComputadorJaExisteExceptionTratada()
+        {
+            // Arrange
+            var body = new AdicionarViewModel();
+            body.Andar = "A01";
+            body.Descricao = "C001";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.Adicionar(body)).Throws(new ComputadorJaExisteException());
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .CadastrarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<AdicionarViewModel>(body, new JsonMediaTypeFormatter())
+                });
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.NotNull(response.Content);
+            Assert.Equal("Este computador já está cadastrado!", response.Content.ReadAsStringAsync().Result);
+        }
+
+        // validar cadastro de um novo computador
+        [Fact]
+        public void ComputadorController_CadastrarComputador_ComputadorCadastrado()
+        {
+            // Arrange
+            var body = new AdicionarViewModel();
+            body.Descricao = "C001";
+            body.Andar = "A01";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.Adicionar(body)).Returns("123");
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .CadastrarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<AdicionarViewModel>(body, new JsonMediaTypeFormatter())
+                });
+
+            // Assert
+            Assert.True(body.EhValido());
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.Content.ReadAsStringAsync().Result != null);
+            Assert.Equal("123", response.Content.ReadAsStringAsync().Result);
+        }
 
         // validar entrada de dados válidos ao desativar
         // validar entrada de dados inválidos ao desativar
+
         // validar desativar computador
+        [Fact]
+        public void ComputadorController_DesativarComputador_FoiDesativado()
+        {
+            // Arrange
+            var vm = new DesativarComputadorViewModel("123");
+            var computadorVm = new ConsultarComputadorViewModel();
+            computadorVm.Id = "123";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.Desativar(vm));
+            appServico.Setup(x => x.Buscar("123")).Returns(computadorVm);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .DesativarComputador(new HttpResponseMessage
+                {
+                    Content = new StringContent(vm.Id)
+                });
+
+            // Assert
+
+        }
+
         // validar desativar computador em uso
 
         // validar entrada de dados válidos ao informar utilização

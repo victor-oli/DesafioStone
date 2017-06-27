@@ -1,6 +1,5 @@
 ﻿using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
-using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
 using System.Collections.Generic;
 
@@ -15,9 +14,9 @@ namespace DesafioStone.App.AppServicos
             _servico = servico;
         }
 
-        public string Adicionar(Computador computador)
+        public string Adicionar(AdicionarViewModel viewModel)
         {
-            return _servico.Adicionar(computador);
+            return _servico.Adicionar(viewModel.RetornarComputador());
         }
 
         public ConsultarComputadorViewModel Buscar(string id)

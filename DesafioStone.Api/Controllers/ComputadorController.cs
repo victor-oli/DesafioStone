@@ -1,5 +1,6 @@
 ﻿using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
+using DesafioStone.Dominio.ObjectosValor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,39 @@ namespace DesafioStone.Api.Controllers
         [HttpPost]
         public HttpResponseMessage CadastrarComputador(HttpRequestMessage request)
         {
-            var vm = request.Content.ReadAsAsync<AdicionarViewModel>().Result;
-
-            return new HttpResponseMessage
+            try
             {
-                Content = new ObjectContent<AdicionarViewModel>(vm, new JsonMediaTypeFormatter())
-            };
+                var vm = request.Content.ReadAsAsync<AdicionarViewModel>().Result;
+
+                if (vm.EhValido())
+                {
+                    string id = _appServico.Adicionar(vm);
+
+                    return new HttpResponseMessage
+                    {
+                        Content = new StringContent(id)
+                    };
+                }
+                else
+                    return new HttpResponseMessage
+                    {
+                        Content = new StringContent("Não é possível cadastrar um cadastrar um computador com essas informações.")
+                    };
+            }
+            catch (NullReferenceException)
+            {
+                return new HttpResponseMessage
+                {
+                    Content = new StringContent("Cadastro inválido! Você deve informar Descrição e Andar.")
+                };
+            }
+            catch(ComputadorJaExisteException)
+            {
+                return new HttpResponseMessage
+                {
+                    Content = new StringContent("Este computador já está cadastrado!")
+                };
+            }
         }
     }
 }

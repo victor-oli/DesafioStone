@@ -109,6 +109,10 @@
       <Project>{19583e2f-b682-49b9-9c6d-e33ba97cdbfc}</Project>
       <Name>DesafioStone.App</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DesafioStone.Dominio\DesafioStone.Dominio.csproj">
+      <Project>{6A4B9DDB-B04C-4040-B26A-1BB285D52F60}</Project>
+      <Name>DesafioStone.Dominio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
