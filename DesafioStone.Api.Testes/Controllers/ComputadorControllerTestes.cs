@@ -1,6 +1,9 @@
 ﻿using DesafioStone.Api.Controllers;
+using DesafioStone.App.AppServicos;
 using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
+using DesafioStone.Dominio.Entidades;
+using DesafioStone.Dominio.Interfaces.Servicos;
 using DesafioStone.Dominio.ObjectosValor;
 using Moq;
 using System;
@@ -153,24 +156,24 @@ namespace DesafioStone.Api.Testes.Controllers
         {
             // Arrange
             var vm = new DesativarComputadorViewModel("123");
-            var computadorVm = new ConsultarComputadorViewModel();
-            computadorVm.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorDesativado());
-            computadorVm.Id = "123";
-            var appServico = new Mock<IComputadorAppServico>();
-            appServico.Setup(x => x.Desativar(vm));
-            appServico.Setup(x => x.Buscar("123")).Returns(computadorVm);
+            var computador = new Computador("C001", "A01");
+            computador.Id = "123";
+            var servico = new Mock<IComputadorServico>();
+            servico.Setup(x => x.Buscar(vm.Id)).Returns(computador);
+            var appServico = new ComputadorAppServico(servico.Object);
 
             // Act
-            var response = new ComputadorController(appServico.Object)
+            var response = new ComputadorController(appServico)
                 .DesativarComputador(new HttpRequestMessage
                 {
                     Content = new ObjectContent<DesativarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 });
 
             // Assert
-            Assert.Equal(vm.Id, appServico.Object.Buscar(computadorVm.Id).Id);
-            Assert.False(appServico.Object.Buscar(computadorVm.Id).PegarUltimaOcorrencia().Liberado);
-            Assert.False(appServico.Object.Buscar(computadorVm.Id).Ativo);
+            Assert.True(vm.EhValido());
+            Assert.NotNull(computador);
+            Assert.Equal(vm.Id, computador.Id);
+            Assert.True(computador.Ativo);
             Assert.NotNull(response);
             Assert.NotNull(response.Content);
             Assert.Equal("O computador foi desativado.", response.Content.ReadAsStringAsync().Result);
@@ -180,14 +183,19 @@ namespace DesafioStone.Api.Testes.Controllers
 
         // validar entrada de dados válidos ao informar utilização
         // validar entrada de dados inválidos ao informar utilização
-        
-        // validar informar utilização
-        [Fact]
-        public void ComputadorController_InformarUtilizacao_UtilizacaoInformada()
-        {
-            // Arrange
 
-        }
+        // validar informar utilização
+        //[Fact]
+        //public void ComputadorController_InformarUtilizacao_UtilizacaoInformada()
+        //{
+        //    // Arrange
+        //    var vm = new UtilizarComputadorViewModel();
+        //    vm.Descricao = "C002";
+        //    var consultar = new Computador("C002", "A02");
+        //    var service = new Mock<IComputadorServico>();
+        //    service.Setup(x => x.BuscarPorDescricao(consultar.Descricao)).Returns(consultar);
+        //    var appServico = new Mock<IComputadorAppServico>();
+        //}
 
 
         // validar informar utilização de um computador em uso

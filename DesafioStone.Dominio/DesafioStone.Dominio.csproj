@@ -35,6 +35,7 @@
     <Compile Include="Interfaces\Servicos\IComputadorServico.cs" />
     <Compile Include="ObjectosValor\ComputadorDesativadoException.cs" />
     <Compile Include="ObjectosValor\ComputadorJaExisteException.cs" />
+    <Compile Include="ObjectosValor\ComputadorNaoExisteException.cs" />
     <Compile Include="ObjectosValor\Ocorrencia.cs" />
     <Compile Include="ObjectosValor\ComputadorEmUsoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

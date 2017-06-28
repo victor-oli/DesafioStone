@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DesafioStone.App.ViewModels
+﻿namespace DesafioStone.App.ViewModels
 {
     public class UtilizarComputadorViewModel
     {
         public string Resultado { get; set; }
         public string Descricao { get; set; }
+
+        public bool EhValido()
+        {
+            if (string.IsNullOrEmpty(Descricao.Trim()))
+                return false;
+
+            return true;
+        }
     }
 }

@@ -20,5 +20,13 @@ namespace DesafioStone.App.ViewModels
             Ativo = computador.Ativo;
             Ocorrencias = computador.Ocorrencias;
         }
+
+        public bool ConsultaPorAndarEhValida()
+        {
+            if (string.IsNullOrEmpty(Andar.Trim()))
+                return false;
+
+            return true;
+        }
     }
 }

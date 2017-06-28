@@ -31,12 +31,22 @@ namespace DesafioStone.Dominio.Servicos
 
         public Computador Buscar(string id)
         {
-            return _repositorio.Buscar(id);
+            var computador = _repositorio.Buscar(id);
+
+            if (computador == null)
+                throw new ComputadorNaoExisteException();
+
+            return computador;
         }
 
         public Computador BuscarPorDescricao(string descricao)
         {
-            return _repositorio.BuscarPorDescricao(descricao);
+            var computador = _repositorio.BuscarPorDescricao(descricao);
+
+            if (computador == null)
+                throw new ComputadorNaoExisteException();
+
+            return computador;
         }
 
         public List<Computador> BuscarTodosLiberados()
