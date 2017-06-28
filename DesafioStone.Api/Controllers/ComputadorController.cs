@@ -162,9 +162,11 @@ namespace DesafioStone.Api.Controllers
         [HttpPost]
         public HttpResponseMessage UtilizarComputador(HttpRequestMessage request)
         {
+            UtilizarComputadorViewModel vm = new UtilizarComputadorViewModel();
+
             try
             {
-                var vm = request.Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+                vm = request.Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
 
                 if (vm.EhValido())
                 {
@@ -201,12 +203,14 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("O computador que você tentou utilizar não existe.")
                 };
             }
-            catch (ComputadorEmUsoException)
+            catch (ComputadorEmUsoException ex)
             {
+                vm.Resultado = ex.Message;
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou utilizar já está em uso.")
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
         }

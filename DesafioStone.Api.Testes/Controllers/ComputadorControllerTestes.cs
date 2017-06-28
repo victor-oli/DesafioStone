@@ -6,14 +6,9 @@ using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
 using DesafioStone.Dominio.ObjectosValor;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DesafioStone.Api.Testes.Controllers
@@ -180,23 +175,54 @@ namespace DesafioStone.Api.Testes.Controllers
         }
 
         // validar desativar computador em uso
+        [Fact]
+        public void ComputadorController_DesativarComputador_ComputarJaEstaEmUso()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C001";
+            var appService = new Mock<IComputadorAppServico>();
+            appService.Setup(x => x.UtilizarComputador(vm))
+                .Throws(new ComputadorEmUsoException("Não é possível utilizar um computador que já está em uso."));
+
+            // Act
+            var response = new ComputadorController(appService.Object)
+                .UtilizarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("Não é possível utilizar um computador que já está em uso.", response.Resultado);
+        }
 
         // validar entrada de dados válidos ao informar utilização
         // validar entrada de dados inválidos ao informar utilização
 
         // validar informar utilização
-        //[Fact]
-        //public void ComputadorController_InformarUtilizacao_UtilizacaoInformada()
-        //{
-        //    // Arrange
-        //    var vm = new UtilizarComputadorViewModel();
-        //    vm.Descricao = "C002";
-        //    var consultar = new Computador("C002", "A02");
-        //    var service = new Mock<IComputadorServico>();
-        //    service.Setup(x => x.BuscarPorDescricao(consultar.Descricao)).Returns(consultar);
-        //    var appServico = new Mock<IComputadorAppServico>();
-        //}
+        [Fact]
+        public void ComputadorController_InformarUtilizacao_UtilizacaoInformada()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C002";
+            var appService = new Mock<IComputadorAppServico>();
+            vm.Resultado = "Agora este computador está em uso.";
+            appService.Setup(x => x.UtilizarComputador(vm)).Returns(vm);
 
+            // Act
+            var response = new ComputadorController(appService.Object)
+                .UtilizarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("Agora este computador está em uso.", response.Resultado);
+        }
 
         // validar informar utilização de um computador em uso
         // validar informar utilização de um computador desativado

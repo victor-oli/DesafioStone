@@ -231,5 +231,16 @@ namespace DesafioStone.Dominio.Teste.Services
             Assert.NotNull(ex);
             Assert.Equal("Não é possível desativar um computador em uso!", ex.Message);
         }
+
+        // abilitar um computador desativado
+        [Fact]
+        public void ComputadorService_AbilitarComputador_Valido()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
     }
 }
