@@ -16,6 +16,7 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
 
             // Act
             computador.Id = new ComputadorRepositorio().Adicionar(computador);
@@ -48,6 +49,7 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C010", "A02");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             computador.Id = new ComputadorRepositorio().Adicionar(computador);
 
             // Act
@@ -63,6 +65,7 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C012", "A02");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             computador.Id = new ComputadorRepositorio().Adicionar(computador);
             computador.Descricao = "C013";
             computador.Andar = "A03";
@@ -84,6 +87,7 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C012", "A02");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             string id = new ComputadorRepositorio().Adicionar(computador);
 
             // Act
@@ -99,9 +103,11 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador = new Computador("C012", "A02");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             new ComputadorRepositorio().Adicionar(computador);
 
             computador = new Computador("C013", "A04");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             new ComputadorRepositorio().Adicionar(computador);
 
             // Act
@@ -118,20 +124,25 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador1 = new Computador("C001", "A01");
+            computador1.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             new ComputadorRepositorio().Adicionar(computador1);
 
             var computador2 = new Computador("C002", "A01");
+            computador2.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             new ComputadorRepositorio().Adicionar(computador2);
 
             var computador3 = new Computador("C003", "A01");
+            computador3.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             computador3.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
             new ComputadorRepositorio().Adicionar(computador3);
 
             var computador4 = new Computador("C004", "A02");
+            computador4.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             computador4.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
             new ComputadorRepositorio().Adicionar(computador4);
 
             var computador5 = new Computador("C005", "A02");
+            computador5.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             computador5.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
             new ComputadorRepositorio().Adicionar(computador5);
 
@@ -141,10 +152,10 @@ namespace DesafioStone.Infra.Teste.Repositorios
 
             // Assert
             Assert.True(listaComputadoresLiberados != null);
-            Assert.True(listaComputadoresLiberados.ToList().Count > 2);
+            Assert.True(listaComputadoresLiberados.ToList().Count >= 2);
 
             Assert.True(listaComputadoresNaoLiberados != null);
-            Assert.True(listaComputadoresNaoLiberados.ToList().Count > 3);
+            Assert.True(listaComputadoresNaoLiberados.ToList().Count >= 3);
         }
 
         // Testar consulta de todos os computadores em um andar específico
@@ -153,12 +164,15 @@ namespace DesafioStone.Infra.Teste.Repositorios
         {
             // Arrange
             var computador1 = new Computador("C001", "A01");
+            computador1.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             new ComputadorRepositorio().Adicionar(computador1);
 
             var computador2 = new Computador("C002", "A01");
+            computador2.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             new ComputadorRepositorio().Adicionar(computador2);
 
             var computador3 = new Computador("C003", "A01");
+            computador3.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             computador3.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
             new ComputadorRepositorio().Adicionar(computador3);
 

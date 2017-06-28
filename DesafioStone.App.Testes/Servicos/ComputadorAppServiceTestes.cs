@@ -231,6 +231,7 @@ namespace DesafioStone.App.Testes.Servicos
             var vm = new UtilizarComputadorViewModel();
             vm.Descricao = "C001";
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             var repo = new Mock<IComputadorRepositorio>();
             repo.Setup(x => x.Atualizar(computador));
             var servico = new Mock<IComputadorServico>();
@@ -278,6 +279,7 @@ namespace DesafioStone.App.Testes.Servicos
             var vm = new UtilizarComputadorViewModel();
             vm.Descricao = "C001";
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             var repo = new Mock<IComputadorRepositorio>();
             repo.Setup(x => x.Atualizar(computador));
             var servico = new Mock<IComputadorServico>();
@@ -300,6 +302,7 @@ namespace DesafioStone.App.Testes.Servicos
             var vm = new UtilizarComputadorViewModel();
             vm.Descricao = "C001";
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             var repo = new Mock<IComputadorRepositorio>();
             repo.Setup(x => x.Atualizar(computador));
             var servico = new Mock<IComputadorServico>();

@@ -26,6 +26,7 @@ namespace DesafioStone.Dominio.Teste.Entidades
         {
             // Arrange & Act
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
 
             // Assert
             Assert.Equal("Cadastro de computador".ToUpper(), computador.Ocorrencias[0].Descricao);
@@ -51,6 +52,7 @@ namespace DesafioStone.Dominio.Teste.Entidades
         {
             // Arrange
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
 
             // Act
             var ocorrencia = computador.PegarUltimaOcorrencia();

@@ -200,6 +200,7 @@ namespace DesafioStone.Dominio.Teste.Services
         {
             // Arrange
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             var repositorio = new Mock<IComputadorRepositorio>();
             repositorio.Setup(x => x.Desativar(computador));
             var servico = new ComputadorServico(repositorio.Object);
@@ -219,6 +220,7 @@ namespace DesafioStone.Dominio.Teste.Services
         {
             // Arrange
             var computador = new Computador("C001", "A01");
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             var repositorio = new Mock<IComputadorRepositorio>();
             repositorio.Setup(x => x.Desativar(computador))
                 .Throws(new ComputadorEmUsoException("Não é possível desativar um computador em uso!"));
