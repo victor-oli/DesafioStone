@@ -19,6 +19,7 @@ namespace DesafioStone.Infra.DataBaseModel
             Descricao = computador.Descricao;
             Andar = computador.Andar;
             Ativo = computador.Ativo;
+            Ocorrencias = new List<Ocorrencia>();
             Ocorrencias = computador.Ocorrencias;
         }
 
@@ -28,6 +29,8 @@ namespace DesafioStone.Infra.DataBaseModel
             computador.Ativo = Ativo;
             computador.Id = Id.ToString();
             computador.Ocorrencias = Ocorrencias;
+
+            computador.Ocorrencias.ForEach(x => x.DataOcorrencia = x.DataOcorrencia);
 
             return computador;
         }

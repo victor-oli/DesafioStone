@@ -21,6 +21,8 @@ namespace DesafioStone.Dominio.Servicos
             if (_repositorio.BuscarPorDescricao(computador.Descricao.Trim().ToUpper()) != null)
                 throw new ComputadorJaExisteException();
 
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
+
             return _repositorio.Adicionar(computador);
         }
 

@@ -86,7 +86,7 @@ namespace DesafioStone.Api.Controllers
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("Você deve informar um computador.")
+                    Content = new StringContent("Você deve informar o id de um computador.")
                 };
             }
             catch (ComputadorNaoExisteException)
@@ -95,6 +95,14 @@ namespace DesafioStone.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent("O computador que você tentou desativar não existe.")
+                };
+            }
+            catch(ComputadorEmUsoException)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("O computador que você tentou desativar está em uso.")
                 };
             }
         }
@@ -139,6 +147,14 @@ namespace DesafioStone.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent("O computador que você tentou liberar não existe.")
+                };
+            }
+            catch(ComputadorDesativadoException)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("O computador que você tentou liberar está desativado.")
                 };
             }
         }
@@ -306,7 +322,7 @@ namespace DesafioStone.Api.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage BuscarTodosLiberados(HttpRequestMessage request)
+        public HttpResponseMessage BuscarLiberados(HttpRequestMessage request)
         {
             try
             {
@@ -328,7 +344,7 @@ namespace DesafioStone.Api.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage BuscarTodosNaoLiberados(HttpRequestMessage request)
+        public HttpResponseMessage BuscarNaoLiberados(HttpRequestMessage request)
         {
             try
             {
@@ -350,7 +366,7 @@ namespace DesafioStone.Api.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage BuscarTodosPorAndar(HttpRequestMessage request)
+        public HttpResponseMessage BuscarPorAndar(HttpRequestMessage request)
         {
             try
             {

@@ -5,13 +5,13 @@ namespace DesafioStone.Dominio.ObjectosValor
     public class Ocorrencia
     {
         public string Descricao { get; private set; }
-        public DateTime DataOcorrencia { get; private set; }
+        public string DataOcorrencia { get; set; }
         public bool Liberado { get; private set; }
 
         private Ocorrencia(string descricao, bool liberado)
         {
             this.Descricao = descricao.Trim().ToUpper();
-            this.DataOcorrencia = DateTime.Now;
+            this.DataOcorrencia = DateTime.Now.ToString();
             this.Liberado = liberado;
         }
 

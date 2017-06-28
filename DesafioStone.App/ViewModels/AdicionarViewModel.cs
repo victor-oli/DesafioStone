@@ -4,6 +4,7 @@ namespace DesafioStone.App.ViewModels
 {
     public class AdicionarViewModel
     {
+        public string Id { get; set; }
         public string Descricao { get; set; }
         public string Andar { get; set; }
 

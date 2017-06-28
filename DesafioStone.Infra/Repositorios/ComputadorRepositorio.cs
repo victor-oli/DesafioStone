@@ -1,5 +1,6 @@
 ﻿using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Repositorios;
+using DesafioStone.Dominio.ObjectosValor;
 using DesafioStone.Infra.BancoDados;
 using DesafioStone.Infra.DataBaseModel;
 using MongoDB.Bson;
@@ -34,12 +35,21 @@ namespace DesafioStone.Infra.Repositorios
 
         public Computador Buscar(string id)
         {
-            return _computadores.Find(x => x.Id == new ObjectId(id)).FirstOrDefault().ConverterParaComputador();
+            ObjectId oid = new ObjectId();
+
+            if (!ObjectId.TryParse(id, out oid))
+                return null;
+
+            var dbm = _computadores.Find(x => x.Id == oid).FirstOrDefault();
+
+            return dbm != null ? dbm.ConverterParaComputador() : null;
         }
 
         public Computador BuscarPorDescricao(string descricao)
         {
-            return _computadores.Find(x => x.Descricao == descricao).FirstOrDefault().ConverterParaComputador();
+            var dbm = _computadores.Find(x => x.Descricao.ToUpper() == descricao.ToUpper()).FirstOrDefault();
+
+            return dbm != null ? dbm.ConverterParaComputador() : null;
         }
 
         public IEnumerable<Computador> BuscarTodosLiberados()
@@ -72,13 +82,12 @@ namespace DesafioStone.Infra.Repositorios
 
         public IEnumerable<Computador> BuscarTodosPorAndar(string andar)
         {
-            IEnumerable<ComputadorDBM> lista = _computadores.Find(Builders<ComputadorDBM>.Filter
-                .Eq(x => x.Andar, andar))
-                .ToEnumerable();
+            List<ComputadorDBM> lista = _computadores.Find(x => x.Andar.ToUpper() == andar.ToUpper())
+                .ToList();
 
             List<Computador> resultado = new List<Computador>();
-
-            lista.ToList().ForEach(x => resultado.Add(x.ConverterParaComputador()));
+            
+            lista.ForEach(x => resultado.Add(x.ConverterParaComputador()));
 
             return resultado;
         }
@@ -95,7 +104,9 @@ namespace DesafioStone.Infra.Repositorios
 
         public void Desativar(Computador computador)
         {
-            UpdateDefinition<ComputadorDBM> update = Builders<ComputadorDBM>.Update.Set("Ativo", false);
+            UpdateDefinition<ComputadorDBM> update = Builders<ComputadorDBM>.Update
+                .Set("Ativo", false)
+                .Set(x => x.Ocorrencias, computador.Ocorrencias);
 
             _computadores.UpdateOne(x => x.Id == new ObjectId(computador.Id), update);
         }

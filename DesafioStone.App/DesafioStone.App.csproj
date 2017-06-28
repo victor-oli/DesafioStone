@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\DesafioStone.Api\bin\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +45,9 @@
   <ItemGroup>
     <Compile Include="AppServicos\ComputadorAppServico.cs" />
     <Compile Include="Interfaces\IComputadorAppServico.cs" />
+    <Compile Include="NinjectModulos\ModuloRepositorio.cs" />
+    <Compile Include="NinjectModulos\ModuloServicoApp.cs" />
+    <Compile Include="NinjectModulos\ModuloServicoDominio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AdicionarViewModel.cs" />
     <Compile Include="ViewModels\ConsultarComputadorViewModel.cs" />
@@ -55,6 +61,11 @@
       <Project>{6a4b9ddb-b04c-4040-b26a-1bb285d52f60}</Project>
       <Name>DesafioStone.Dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DesafioStone.Infra\DesafioStone.Infra.csproj">
+      <Project>{16def9db-e560-425c-88b4-ea7110384947}</Project>
+      <Name>DesafioStone.Infra</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

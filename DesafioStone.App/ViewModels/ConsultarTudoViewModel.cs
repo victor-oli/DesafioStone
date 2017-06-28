@@ -8,9 +8,14 @@ namespace DesafioStone.App.ViewModels
     {
         public string Id { get; set; }
         public string Descricao { get; set; }
-        public string Andar { get; private set; }
+        public string Andar { get; set; }
         public bool Ativo { get; private set; }
         public List<Ocorrencia> Ocorrencias { get; private set; }
+
+        public ConsultarTudoViewModel()
+        {
+
+        }
 
         public ConsultarTudoViewModel(Computador computador)
         {

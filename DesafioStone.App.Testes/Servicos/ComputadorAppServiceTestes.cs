@@ -13,27 +13,6 @@ namespace DesafioStone.App.Testes.Servicos
     public class ComputadorAppServiceTestes
     {
         // validar cadastro de um computador
-        [Fact]
-        public void ComputadorAppService_AdicionarComputador_Validar()
-        {
-            // Arrange
-            var vm = new AdicionarViewModel();
-            vm.Descricao = "C001";
-            vm.Andar = "A01";
-            var computador = vm.RetornarComputador();
-            computador.Id = "123";
-            var repo = new Mock<IComputadorRepositorio>();
-            repo.Setup(x => x.Adicionar(computador)).Returns(computador.Id);
-            var servico = new Mock<IComputadorServico>();
-            servico.Setup(x => x.Adicionar(computador)).Returns(computador.Id);
-
-            // Act
-            var id = new ComputadorAppServico(servico.Object).Adicionar(vm);
-
-            // Assert
-            Assert.Equal("123", id);
-        }
-
         // validar exception ao desativar um computador
         [Fact]
         public void ComputadorAppService_DesativarComputadorNaoLiberado_RetornarException()

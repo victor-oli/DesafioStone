@@ -1,5 +1,6 @@
 ﻿using DesafioStone.App.Interfaces;
 using DesafioStone.App.ViewModels;
+using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
 using System.Collections.Generic;
 

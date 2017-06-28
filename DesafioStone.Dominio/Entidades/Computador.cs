@@ -17,31 +17,30 @@ namespace DesafioStone.Dominio.Entidades
             this.Andar = andar.Trim().ToUpper();
             this.Ocorrencias = new List<Ocorrencia>();
             this.Ativo = true;
-
-            this.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
-        }
-
-        public bool VerificarDisponibilidade()
-        {
-            return PegarUltimaOcorrencia().Liberado;
         }
 
         public void InformarUso()
         {
-            if (!VerificarDisponibilidade())
+            if (Ativo && !PegarUltimaOcorrencia().Liberado)
                 throw new ComputadorEmUsoException("Não é possível utilizar um computador que já está em uso.");
+            else if (!Ativo)
+                throw new ComputadorDesativadoException();
 
             this.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorEmUso());
         }
 
         public void InformarLiberacao()
         {
+            if (!Ativo)
+                throw new ComputadorDesativadoException();
+
             Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.ComputadorLiberado());
         }
 
         public void Desativar()
         {
-            if (!VerificarDisponibilidade())
+            if (!PegarUltimaOcorrencia().Liberado &&
+                PegarUltimaOcorrencia().Descricao == Ocorrencia.OcorrenciaFabrica.ComputadorEmUso().Descricao)
                 throw new ComputadorEmUsoException(string.Format("O computador {0} não pode ser desativador pois está em uso.", this.Descricao));
 
             this.Ativo = false;

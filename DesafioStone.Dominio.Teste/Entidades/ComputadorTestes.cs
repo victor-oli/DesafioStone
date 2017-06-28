@@ -32,20 +32,6 @@ namespace DesafioStone.Dominio.Teste.Entidades
             Assert.True(computador.Ocorrencias[0].Liberado);
         }
 
-        // Validar se um computador está disponível através das ocorrencias
-        [Fact]
-        public void Computador_ValidarDisponibilidade_Valido()
-        {
-            // Arrange
-            var computador = new Computador("C001", "A01");
-
-            // Act
-            bool disponivel = computador.VerificarDisponibilidade();
-
-            // Assert
-            Assert.True(disponivel);
-        }
-
         // Não permitir a utilização de um computador em uso
         [Fact]
         public void Computador_InformarUsoNaoPermitido_RetornarException()
@@ -57,7 +43,6 @@ namespace DesafioStone.Dominio.Teste.Entidades
             // Act & Assert
             var ex = Assert.Throws<ComputadorEmUsoException>(() => computador.InformarUso());
             Assert.Equal("Não é possível utilizar um computador que já está em uso.", ex.Message);
-            Assert.False(computador.VerificarDisponibilidade());
         }
 
         // Validar pegar a última ocorrência
