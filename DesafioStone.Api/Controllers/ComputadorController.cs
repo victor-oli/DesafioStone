@@ -49,12 +49,20 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("Cadastro inválido! Você deve informar Descrição e Andar.")
                 };
             }
-            catch (ComputadorJaExisteException)
+            catch (ComputadorJaExisteException ex)
             {
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("Este computador já está cadastrado!")
+                    Content = new StringContent(ex.Message)
+                };
+            }
+            catch(Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
                 };
             }
         }
@@ -89,20 +97,28 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("Você deve informar o id de um computador.")
                 };
             }
-            catch (ComputadorNaoExisteException)
+            catch (ComputadorNaoExisteException ex)
             {
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou desativar não existe.")
+                    Content = new StringContent(ex.Message)
                 };
             }
-            catch(ComputadorEmUsoException)
+            catch(ComputadorEmUsoException ex)
             {
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou desativar está em uso.")
+                    Content = new StringContent(ex.Message)
+                };
+            }
+            catch (Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
                 };
             }
         }
@@ -160,6 +176,14 @@ namespace DesafioStone.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new ObjectContent<LiberarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                };
+            }
+            catch (Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
                 };
             }
         }
@@ -230,6 +254,14 @@ namespace DesafioStone.Api.Controllers
                     Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
+            catch (Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
+                };
+            }
         }
 
         [HttpGet]
@@ -244,7 +276,7 @@ namespace DesafioStone.Api.Controllers
                     Content = new ObjectContent<List<ConsultarTudoViewModel>>(vm, new JsonMediaTypeFormatter())
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new HttpResponseMessage
                 {
@@ -300,6 +332,14 @@ namespace DesafioStone.Api.Controllers
                     Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
+            catch (Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
+                };
+            }
         }
 
         [HttpPost]
@@ -346,6 +386,14 @@ namespace DesafioStone.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                };
+            }
+            catch (Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
                 };
             }
         }
@@ -424,6 +472,14 @@ namespace DesafioStone.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent("Erro no corpo da requisição.")
+                };
+            }
+            catch (Exception)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Erro interno no servidor.")
                 };
             }
         }
