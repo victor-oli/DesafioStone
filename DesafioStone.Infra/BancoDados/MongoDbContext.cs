@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using System.Configuration;
 
 namespace DesafioStone.Infra.BancoDados
 {

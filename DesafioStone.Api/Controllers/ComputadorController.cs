@@ -213,6 +213,16 @@ namespace DesafioStone.Api.Controllers
                     Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
+            catch(ComputadorDesativadoException ex)
+            {
+                vm.Resultado = ex.Message;
+
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                };
+            }
         }
 
         [HttpGet]

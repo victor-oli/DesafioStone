@@ -176,26 +176,24 @@ namespace DesafioStone.Api.Testes.Controllers
 
         // validar desativar computador em uso
         [Fact]
-        public void ComputadorController_DesativarComputador_ComputarJaEstaEmUso()
+        public void ComputadorController_DesativarComputador_ComputadorJaEstaEmUso()
         {
             // Arrange
-            var vm = new UtilizarComputadorViewModel();
-            vm.Descricao = "C001";
+            var vm = new DesativarComputadorViewModel("123");
             var appService = new Mock<IComputadorAppServico>();
-            appService.Setup(x => x.UtilizarComputador(vm))
-                .Throws(new ComputadorEmUsoException("Não é possível utilizar um computador que já está em uso."));
+            appService.Setup(x => x.Desativar(vm))
+                .Throws(new ComputadorEmUsoException("O computador que você tentou desativar está em uso."));
 
             // Act
             var response = new ComputadorController(appService.Object)
-                .UtilizarComputador(new HttpRequestMessage
+                .DesativarComputador(new HttpRequestMessage
                 {
-                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
-                }).Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+                    Content = new ObjectContent<DesativarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsStringAsync().Result;
 
             // Assert
             Assert.NotNull(response);
-            Assert.Equal(vm.Descricao, response.Descricao);
-            Assert.Equal("Não é possível utilizar um computador que já está em uso.", response.Resultado);
+            Assert.Equal("O computador que você tentou desativar está em uso.", response);
         }
 
         // validar entrada de dados válidos ao informar utilização
@@ -225,7 +223,52 @@ namespace DesafioStone.Api.Testes.Controllers
         }
 
         // validar informar utilização de um computador em uso
+        [Fact]
+        public void ComputadorController_InformarUtilizacao_ComputadorJaEstaEmUso()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "C001";
+            var appService = new Mock<IComputadorAppServico>();
+            appService.Setup(x => x.UtilizarComputador(vm))
+                .Throws(new ComputadorEmUsoException("Não é possível utilizar um computador que já está em uso."));
+
+            // Act
+            var response = new ComputadorController(appService.Object)
+                .UtilizarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("Não é possível utilizar um computador que já está em uso.", response.Resultado);
+        }
+
         // validar informar utilização de um computador desativado
+        [Fact]
+        public void ComputadorController_InformarUtilizacao_ComputadorDesativado()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "c001";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.UtilizarComputador(vm)).Throws(new ComputadorDesativadoException());
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .UtilizarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("Computador desativado. Não é possível utilizar este computador!", response.Resultado);
+        }
+        
         // validar informar utilização de um computador inexistente
 
         // validar entrada de dados válidos ao liberar um computador
