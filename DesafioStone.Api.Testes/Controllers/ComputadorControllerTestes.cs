@@ -114,7 +114,7 @@ namespace DesafioStone.Api.Testes.Controllers
             // Assert
             Assert.NotNull(response);
             Assert.NotNull(response.Content);
-            Assert.Equal("Este computador já está cadastrado!", response.Content.ReadAsStringAsync().Result);
+            Assert.Equal("Já existe um computador com este nome!", response.Content.ReadAsStringAsync().Result);
         }
 
         // validar cadastro de um novo computador
