@@ -6,6 +6,7 @@ using DesafioStone.Dominio.Entidades;
 using DesafioStone.Dominio.Interfaces.Servicos;
 using DesafioStone.Dominio.ObjectosValor;
 using Moq;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -141,10 +142,7 @@ namespace DesafioStone.Api.Testes.Controllers
             Assert.True(response.Content.ReadAsStringAsync().Result != null);
             Assert.Equal("123", response.Content.ReadAsStringAsync().Result);
         }
-
-        // validar entrada de dados válidos ao desativar
-        // validar entrada de dados inválidos ao desativar
-
+        
         // validar desativar computador
         [Fact]
         public void ComputadorController_DesativarComputador_FoiDesativado()
@@ -195,10 +193,7 @@ namespace DesafioStone.Api.Testes.Controllers
             Assert.NotNull(response);
             Assert.Equal("O computador que você tentou desativar está em uso.", response);
         }
-
-        // validar entrada de dados válidos ao informar utilização
-        // validar entrada de dados inválidos ao informar utilização
-
+        
         // validar informar utilização
         [Fact]
         public void ComputadorController_InformarUtilizacao_UtilizacaoInformada()
@@ -268,37 +263,271 @@ namespace DesafioStone.Api.Testes.Controllers
             Assert.Equal(vm.Descricao, response.Descricao);
             Assert.Equal("Computador desativado. Não é possível utilizar este computador!", response.Resultado);
         }
-        
-        // validar informar utilização de um computador inexistente
 
-        // validar entrada de dados válidos ao liberar um computador
-        // validar entrada de dados inválidos ao liberar um computador
+        // validar informar utilização de um computador inexistente
+        [Fact]
+        public void ComputadorController_InformarUtilizacao_ComputadorNaoExiste()
+        {
+            // Arrange
+            var vm = new UtilizarComputadorViewModel();
+            vm.Descricao = "c001";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.UtilizarComputador(vm)).Throws(new ComputadorNaoExisteException());
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .UtilizarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<UtilizarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("O computador desejado não existe!", response.Resultado);
+        }
+
         // validar liberação de um computador
+        [Fact]
+        public void ComputadorController_LiberarComputador_LiberacaoValida()
+        {
+            // Arrange
+            var vm = new LiberarComputadorViewModel();
+            vm.DescricaoComputador = "c001";
+            vm.Resultado = string.Format("O computador {0} foi liberado.", vm.DescricaoComputador);
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.LiberarComputador(vm)).Returns(vm);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .LiberarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<LiberarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<LiberarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.DescricaoComputador, response.DescricaoComputador);
+            Assert.Equal(string.Format("O computador {0} foi liberado.", vm.DescricaoComputador), response.Resultado);
+        }
+
         // validar liberação de um computador inexistente
+        [Fact]
+        public void ComputadorController_LiberarComputador_ComputadorNaoExiste()
+        {
+            // Arrange
+            var vm = new LiberarComputadorViewModel();
+            vm.DescricaoComputador = "c001";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.LiberarComputador(vm)).Throws(new ComputadorNaoExisteException());
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .LiberarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<LiberarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<LiberarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.DescricaoComputador, response.DescricaoComputador);
+            Assert.Equal("O computador desejado não existe!", response.Resultado);
+        }
+
         // validar liberação de um computador desativado
+        [Fact]
+        public void ComputadorController_LiberarComputador_ComputadorDesativado()
+        {
+            // Arrange
+            var vm = new LiberarComputadorViewModel();
+            vm.DescricaoComputador = "c001";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.LiberarComputador(vm)).Throws(new ComputadorDesativadoException());
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .LiberarComputador(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<LiberarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<LiberarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.DescricaoComputador, response.DescricaoComputador);
+            Assert.Equal("Computador desativado. Não é possível utilizar este computador!", response.Resultado);
+        }
 
         // validar consulta de todos os computadores
-        // validar consulta de todos os computadores sem resultado
+        [Fact]
+        public void ComputadorController_ConsultarTudo_RetornoValido()
+        {
+            // Arrange
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
+
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.BuscarTodos()).Returns(lista);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarTodos(new HttpRequestMessage())
+                .Content.ReadAsAsync<List<ConsultarTudoViewModel>>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+        }
 
         // validar consulta de todos os computadores livres
-        // validar consulta de todos os computadores livres sem resultado
+        [Fact]
+        public void ComputadorController_ConsultarLiberados_RetornoValido()
+        {
+            // Arrange
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
+
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.BuscarTodosLiberados()).Returns(lista);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarLiberados(new HttpRequestMessage())
+                .Content.ReadAsAsync<List<ConsultarTudoViewModel>>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+        }
 
         // validar consulta de todos os computadores ocupados
-        // validar consulta de todos os computadores ocupados sem resultado
+        [Fact]
+        public void ComputadorController_ConsultarNaoLiberados_RetornoValido()
+        {
+            // Arrange
+            List<ConsultarTudoViewModel> lista = new List<ConsultarTudoViewModel>();
 
-        // validar entrada de dados válidos em consultar por id
-        // validar entrada de dados inválidos em consultar por id
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.BuscarTodosNaoLiberados()).Returns(lista);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarNaoLiberados(new HttpRequestMessage())
+                .Content.ReadAsAsync<List<ConsultarTudoViewModel>>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+        }
+
         // validar consulta por id
+        [Fact]
+        public void ComputadorController_ConsultarPorId_RetornoValido()
+        {
+            // Arrange
+            var vm = new ConsultarComputadorViewModel();
+            vm.Id = "C003";
+            vm.ResultadoTransacao = "OK";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.Buscar(vm.Id)).Returns(vm);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarPorId(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Id, response.Id);
+            Assert.Equal("OK", response.ResultadoTransacao);
+        }
+
         // validar consulta por id de um computador inexistente
+        [Fact]
+        public void ComputadorController_ConsultarPorId_ComputadorNaoExiste()
+        {
+            // Arrange
+            var vm = new ConsultarComputadorViewModel();
+            vm.Id = "123";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.Buscar(vm.Id)).Throws(new ComputadorNaoExisteException());
 
-        // validar entrada de dados válidos em consultar por descrição
-        // validar entrada de dados inválidos em consultar por descrição
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarPorId(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Id, response.Id);
+            Assert.Equal("O computador desejado não existe!", response.ResultadoTransacao);
+        }
+
         // validar consulta por descrição
-        // validar consulta por descrição de um computador inexistente
+        [Fact]
+        public void ComputadorController_ConsultarPorDescricao_RetornoValido()
+        {
+            // Arrange
+            var vm = new ConsultarComputadorViewModel();
+            vm.Descricao = "C003";
+            vm.ResultadoTransacao = "OK";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.BuscarPorDescricao(vm.Descricao)).Returns(vm);
 
-        // validar entrada de dados válidos em consultar por andar
-        // validar entrada de dados inválidos em consultar por andar
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarPorDescricao(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("OK", response.ResultadoTransacao);
+        }
+
+        // validar consulta por descrição de um computador inexistente
+        [Fact]
+        public void ComputadorController_ConsultarPorDescricao_ComputadorNaoExiste()
+        {
+            // Arrange
+            var vm = new ConsultarComputadorViewModel();
+            vm.Descricao = "c003";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.BuscarPorDescricao(vm.Descricao)).Throws(new ComputadorNaoExisteException());
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarPorDescricao(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(vm.Descricao, response.Descricao);
+            Assert.Equal("O computador desejado não existe!", response.ResultadoTransacao);
+        }
+
         // validar consulta por andar
-        // validar consulta por andar inexistente
+        [Fact]
+        public void ComputadorController_ConsultarPorAndar_RetornoValido()
+        {
+            // Arrange
+            var vm  = new ConsultarTudoViewModel();
+            var lista = new List<ConsultarTudoViewModel>();
+            vm.Andar = "a01";
+            var appServico = new Mock<IComputadorAppServico>();
+            appServico.Setup(x => x.BuscarTodosPorAndar(vm.Andar)).Returns(lista);
+
+            // Act
+            var response = new ComputadorController(appServico.Object)
+                .BuscarPorAndar(new HttpRequestMessage
+                {
+                    Content = new ObjectContent<ConsultarTudoViewModel>(vm, new JsonMediaTypeFormatter())
+                }).Content.ReadAsAsync<List<ConsultarTudoViewModel>>().Result;
+
+            // Assert
+            Assert.NotNull(response);
+        }
     }
 }

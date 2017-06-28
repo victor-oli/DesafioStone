@@ -110,9 +110,10 @@ namespace DesafioStone.Api.Controllers
         [HttpPost]
         public HttpResponseMessage LiberarComputador(HttpRequestMessage request)
         {
+            LiberarComputadorViewModel vm = new LiberarComputadorViewModel();
             try
             {
-                var vm = request.Content.ReadAsAsync<LiberarComputadorViewModel>().Result;
+                vm = request.Content.ReadAsAsync<LiberarComputadorViewModel>().Result;
 
                 if (vm.EhValido())
                 {
@@ -141,20 +142,24 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("Erro no corpo da requisição.")
                 };
             }
-            catch (ComputadorNaoExisteException)
+            catch (ComputadorNaoExisteException ex)
             {
+                vm.Resultado = ex.Message;
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou liberar não existe.")
+                    Content = new ObjectContent<LiberarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
-            catch(ComputadorDesativadoException)
+            catch(ComputadorDesativadoException ex)
             {
+                vm.Resultado = ex.Message;
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou liberar está desativado.")
+                    Content = new ObjectContent<LiberarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
         }
@@ -195,12 +200,14 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("Erro no corpo da requisição.")
                 };
             }
-            catch (ComputadorNaoExisteException)
+            catch (ComputadorNaoExisteException ex)
             {
+                vm.Resultado = ex.Message;
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou utilizar não existe.")
+                    Content = new ObjectContent<UtilizarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
             catch (ComputadorEmUsoException ex)
@@ -250,9 +257,11 @@ namespace DesafioStone.Api.Controllers
         [HttpPost]
         public HttpResponseMessage BuscarPorId(HttpRequestMessage request)
         {
+            ConsultarComputadorViewModel vm = new ConsultarComputadorViewModel();
+
             try
             {
-                var vm = request.Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
+                vm = request.Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
 
                 if (vm.ConsultaPorIdEhValida())
                 {
@@ -281,12 +290,14 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("Erro no corpo da requisição.")
                 };
             }
-            catch (ComputadorNaoExisteException)
+            catch (ComputadorNaoExisteException ex)
             {
+                vm.ResultadoTransacao = ex.Message;
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou consultar não existe.")
+                    Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
         }
@@ -294,9 +305,11 @@ namespace DesafioStone.Api.Controllers
         [HttpPost]
         public HttpResponseMessage BuscarPorDescricao(HttpRequestMessage request)
         {
+            ConsultarComputadorViewModel vm = new ConsultarComputadorViewModel();
+
             try
             {
-                var vm = request.Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
+                vm = request.Content.ReadAsAsync<ConsultarComputadorViewModel>().Result;
 
                 if (vm.ConsultaPorDescricaoEhValida())
                 {
@@ -325,12 +338,14 @@ namespace DesafioStone.Api.Controllers
                     Content = new StringContent("Erro no corpo da requisição.")
                 };
             }
-            catch (ComputadorNaoExisteException)
+            catch (ComputadorNaoExisteException ex)
             {
+                vm.ResultadoTransacao = ex.Message;
+
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent("O computador que você tentou consultar não existe.")
+                    Content = new ObjectContent<ConsultarComputadorViewModel>(vm, new JsonMediaTypeFormatter())
                 };
             }
         }
