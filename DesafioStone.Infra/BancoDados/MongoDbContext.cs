@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System.Configuration;
 
 namespace DesafioStone.Infra.BancoDados
 {
@@ -10,8 +11,8 @@ namespace DesafioStone.Infra.BancoDados
 
         public IMongoCollection<T> Open(string collectionName)
         {
-            _client = new MongoClient(); // ConfigurationManager.AppSettings["MongoDBConn"].ToString()
-            _db = _client.GetDatabase("Imobilizados"); // ConfigurationManager.AppSettings["MongoDBName"].ToString()
+            _client = new MongoClient(ConfigurationManager.AppSettings["MongoDBConn"].ToString());
+            _db = _client.GetDatabase(ConfigurationManager.AppSettings["MongoDBName"].ToString());
             _collection = _db.GetCollection<T>(collectionName);
 
             return _collection;

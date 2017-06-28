@@ -244,7 +244,7 @@ namespace DesafioStone.Api.Controllers
                     Content = new ObjectContent<List<ConsultarTudoViewModel>>(vm, new JsonMediaTypeFormatter())
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new HttpResponseMessage
                 {
