@@ -42,6 +42,7 @@ namespace DesafioStone.App.Testes.Servicos
             // Arrange
             var computador = new Computador("C001", "A01");
             computador.Id = "123";
+            computador.Ocorrencias.Add(Ocorrencia.OcorrenciaFabrica.PrimeiraOcorrencia());
             var repo = new Mock<IComputadorRepositorio>();
             repo.Setup(x => x.Buscar(computador.Id)).Returns(computador);
             var servico = new Mock<IComputadorServico>();
